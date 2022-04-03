@@ -20,7 +20,6 @@ const char *mqtt_server = "test.mosquitto.org"; // Red Local con Raspberry pi
 WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
-char msg[50];
 int value = 0;
 const int ledPin = 2;
 float t = 0;
