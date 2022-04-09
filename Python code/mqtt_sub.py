@@ -1,8 +1,3 @@
-# Equipo:
-#  - Cristian Fernando Larios Medina
-#  - Julián Vivas Estrada
-#  - Daniel Alexander Rentería 
-
 import paho.mqtt.client as mqtt
 import time
 import random
