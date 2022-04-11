@@ -1,11 +1,5 @@
-<<<<<<< HEAD
+
 var client = mqtt.connect("ws://broker.emqx.io:8083/mqtt");
-=======
-
-
-
-var client = mqtt.connect("wss://test.mosquitto.org:8081/mqtt");
->>>>>>> 8e960c6bcdeaa6a032d1ad03bb5b2c3c67a9302b
 //Si lo usas en hosting para usar encriptado https
 //var client = mqtt.connect("wss://test.mosquitto.org:8081/mqtts")
 
