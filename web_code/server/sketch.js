@@ -1,10 +1,11 @@
+<<<<<<< HEAD
+var client = mqtt.connect("ws://broker.emqx.io:8083/mqtt");
+=======
 
-// Creado ChepeCarlos de ALSW
-// Tutorial Completo en https://nocheprogramacion.com
-// Canal Youtube https://youtube.com/alswnet?sub_confirmation=1
 
-//const mqtt = require("mqtt")
+
 var client = mqtt.connect("wss://test.mosquitto.org:8081/mqtt");
+>>>>>>> 8e960c6bcdeaa6a032d1ad03bb5b2c3c67a9302b
 //Si lo usas en hosting para usar encriptado https
 //var client = mqtt.connect("wss://test.mosquitto.org:8081/mqtts")
 
@@ -43,7 +44,7 @@ function EventoMensaje(topic, message) {
     humiditySoil.update();
   }
   if (topic == "esp/dht/humidity") {
-    console.log("La uwu " + message.toString());
+    console.log("La humedad " + message.toString());
 
     tankWater1.data.datasets.forEach((dataset) => {
      dataset.data = [message.toString()];
@@ -51,7 +52,14 @@ function EventoMensaje(topic, message) {
     
     tankWater1.update();
   }
-  //console.log(topic + " - " + message.toString());
+  if (topic == "esp/luz") {
+  console.log(topic + " - " + message.toString());
+}
+console.log(topic + " - " + message.toString());
+}
+function save(){
+  client.publish("esp/luz", "on");
+  //console.log("hola")
 }
 client.on("connect", EventoConectar);
 client.on("message", EventoMensaje);
