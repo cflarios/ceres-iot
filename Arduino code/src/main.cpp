@@ -10,16 +10,25 @@
 Adafruit_SHT31 sht31 = Adafruit_SHT31();
 
 // Credenciales de tu red Wi-Fi
-const char *ssid = "YOURSSID";
-const char *password = "YOURPASSWORD";
+const char *ssid = "YOUR_SSID";
+const char *password = "YOUR_PASSWORD";
 
 // Credenciales de tu servidor MQTT
-const char *mqtt_server = "test.mosquitto.org"; // Red Local con Raspberry pi
-// Red pública de mosquitto --> test.mosquitto.org
+const char *mqtt_server = "test.mosquitto.org";
+const char *mqtt_username = "rw";
+const char *mqtt_password = "readwrite";
+const int mqtt_port = 1884;
 
+// Tópicos
+const char *topic1 = "esp32/temperatura";
+const char *topic2 = "esp32/humedad";
+const char *topic3 = "esp32/distancia";
+
+// Variables
 WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
+char msg[50];
 int value = 0;
 const int ledPin = 2;
 float t = 0;
@@ -28,11 +37,12 @@ const int Trigger = 5;
 const int Echo = 18;
 
 // PWM config
-const int PWM_pin = 13;
+const int pwmPin = 13;
 const int freq = 5000;
 const int ledChannel = 0;
 const int resolution = 8;
 float pwm_cmd = 0;
+String slider_value = "0";
 
 void callback(char *topic, byte *message, unsigned int length)
 {
@@ -41,23 +51,6 @@ void callback(char *topic, byte *message, unsigned int length)
   Serial.print(". Mensaje: ");
   String messageTemp;
 
-  char command_str[8];
-  char module_str[length - 8];
-
-  if (strncmp((char *)module_str, (char *)"module1=", 8) == 0)
-  {
-    pwm_cmd = (float)atoi((char *)command_str);
-    // conversion from max=100% PWM to 8-bits output
-    pwm_cmd *= 255.0 / 100;
-
-    Serial.print("PWM Ratio:");
-    Serial.print(pwm_cmd);
-    Serial.println("%");
-  }
-  if (pwm_cmd >= 50)
-  {
-    digitalWrite(ledChannel, HIGH);
-  }
   for (int i = 0; i < length; i++)
   {
     Serial.print((char)message[i]);
@@ -79,6 +72,12 @@ void callback(char *topic, byte *message, unsigned int length)
       digitalWrite(ledPin, LOW);
     }
   }
+  if (String(topic) == "esp32/PWM")
+  {
+    slider_value = messageTemp;
+    ledcWrite(ledChannel, slider_value.toInt());
+  }
+
   Serial.println();
 }
 
@@ -114,12 +113,12 @@ void setup()
   pinMode(ledPin, OUTPUT);
 
   ledcSetup(ledChannel, freq, resolution); // PWM setup
-  ledcAttachPin(PWM_pin, ledChannel);
-
+  ledcAttachPin(pwmPin, ledChannel);
+  ledcWrite(ledChannel, slider_value.toInt());
   setup_wifi();
-  client.setServer(mqtt_server, 1883);
+  client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
-  
+
   if (!sht31.begin(0x44))
   {
     Serial.println("No se pudo encontrar el SHT31");
@@ -133,9 +132,11 @@ void reconnect()
   // Loop until we're reconnected
   while (!client.connected())
   {
+    String client_id = "esp32-client-";
+    client_id += String(WiFi.macAddress());
     Serial.print("Intentando conexión MQTT..");
     // Attempt to connect
-    if (client.connect("ESP32Client"))
+    if (client.connect(client_id.c_str(), mqtt_username, mqtt_password))
     {
       Serial.println("¡conectado!");
       client.subscribe("esp32/LED");
@@ -175,7 +176,7 @@ void loop()
     Serial.print(tempString);
     Serial.print(" °C");
     Serial.println("");
-    client.publish("esp32/temperatura", tempString);
+    client.publish(topic1, tempString);
 
     h = sht31.readHumidity(); // Convertir la variable h de float a char
     char humString[8];
@@ -185,7 +186,7 @@ void loop()
     Serial.print(" %");
     Serial.println("");
     delay(1000);
-    client.publish("esp32/humedad", humString);
+    client.publish(topic2, humString);
 
     digitalWrite(Trigger, HIGH);
     delayMicroseconds(10); // Enviamos un pulso de 10us
@@ -201,6 +202,6 @@ void loop()
     Serial.print(" cm");
     Serial.println("");
     delay(1000);
-    client.publish("esp32/distancia", distanceString);
+    client.publish(topic3, distanceString);
   }
 }
