@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.js"></script>
+  <meta charset="utf-8" />
+  <%- include ("partials/head.html") %>
+    <title>
+      <%= title %>
+    </title>
+</head>
+
+<body class="running">
+  <%- include ("partials/svg.html") %>
+  <%- include ("partials/Sidebar.html") %>
+  <section class="page-content">
+  <main>
+    <h1>Monitoreo de ESP32/uwu</h1>
+    <p>Visualización de estadísticas globales</p>
+
+    <hr />
+
+    <h2 class="loading">Esperando respuesta de la API...</h2>
+
+    <section class="cols-2">
+      <figure>
+        <p>Humedad de la Tierra</p>
+        <h3>----------</h3>
+        <canvas id="humSoil"></canvas>
+      </figure>
+
+      <figure>
+        <p>Nivel Tanque de Agua</p>
+        <h3>----------</h3>
+        <canvas id=""></canvas>
+      </figure>
+    </section>
+
+    <section class="cols-1">
+      <figure>
+        <p>Gráfico lineal</p>
+        <h3>Grafico de Temperatura</h3>
+        <canvas id="tempGrafic"></canvas>
+      </figure>
+    </section>
+
+    <section class="cols-3">
+      <figure>
+        <p>Nivel de Agua</p>
+        <h3>Tanque de Agua Principal</h3>
+        <canvas id="cylGauge1"></canvas>
+      </figure>
+
+      <figure>
+        <p>Nivel de Agua</p>
+        <h3>Tanque de Agua de Reserva</h3>
+        <canvas id="cylGauge2"></canvas>
+      </figure>
+
+      <figure>
+        <p>Panel de Control</p>
+        <h3>Control de Llenado</h3>
+        <div class="inputDiv">
+          <div class="etiqueta"></div>
+          <input type="range" id="input3" value="0" min="0" max="255" autocomplete="off">
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="myCheck" onclick="myFunction()">
+          <span class="slider round"></span>
+        </label>
+
+      </figure>
+    </section>
+    </div>
+    <%- include ('partials/footer.html') %>
+  </main>
+</section>
+      <script src="/socket.io/socket.io.js"></script>
+      <script>
+        var socket = io();
+        function myFunction() {
+          // Get the checkbox
+          var checkBox = document.getElementById("myCheck");
+          // Get the output text
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true) {
+            socket.emit("esp32:luz", 'on')
+          } else {
+            socket.emit("esp32:luz", 'off')
+          }
+        }
+        var elInput3 = document.querySelector('#input3');
+        if (elInput3) {
+
+          var etq = document.querySelector('.etiqueta');
+          if (etq) {
+
+            etq.innerHTML = elInput3.value;
+
+            elInput3.addEventListener('input', function () {
+              // cambia el valor de la etiqueta (el tooltip) 
+              etq.innerHTML = elInput3.value;
+              // cambia la posición de la etiqueta (el tooltip) 
+              socket.emit("esp32:slider", elInput3.value)
+
+            }, false);
+            
+          }
+        }
+
+      </script>
+      <script>
+        let counters = 0;
+        let uno = 0;
+        let dos = 0;
+        let tres = 0;
+        var socket = io();
+        socket.on('esp:temperatura', function (data) {
+          console.log("que riko la:" + data.value)
+          temperatureGrafic.data.labels.push(counters);
+          temperatureGrafic.data.datasets.forEach((dataset) => {
+            dataset.data.push(data.value);
+          });
+          counters++;
+          temperatureGrafic.update();
+        })
+        socket.on('esp:humedad', function (data) {
+          uno = data.value;
+          dos = 100 - data.value;
+          /*humiditySoil.data.datasets.data.push(uno,dos);*/
+          humiditySoil.data.datasets.forEach((dataset) => {
+            dataset.data = [uno, dos];
+          });
+          humiditySoil.update();
+        })
+        socket.on('esp:distancia', function (data) {
+          tankWater1.data.datasets.forEach((dataset) => {
+            dataset.data = [data.value];
+          });
+          tankWater1.update();
+        })
+      </script>
+      <script src="js/ajust.js"></script>
+      <script src="js/paint.js"></script>
+</body>
+
+</html>
