@@ -3,7 +3,6 @@
 #include <SPI.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
-#include <Arduino.h>
 #include <Wire.h>
 #include "Adafruit_SHT31.h"
 
@@ -28,7 +27,6 @@ const char *topic3 = "esp32/distancia";
 WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
-char msg[50];
 int value = 0;
 const int ledPin = 2;
 float t = 0;
@@ -41,7 +39,6 @@ const int pwmPin = 13;
 const int freq = 5000;
 const int ledChannel = 0;
 const int resolution = 8;
-float pwm_cmd = 0;
 String slider_value = "0";
 
 void callback(char *topic, byte *message, unsigned int length)
