@@ -11,7 +11,7 @@ app.set("view engine","ejs")
 app.set("views", path.join(__dirname, "views"))
 app.engine("html", require("ejs").renderFile)
 // routers
-app.use(require('./routers/index'))
+app.use(require('./routers/router'))
 //
 app.use(express.static(path.join(__dirname, "public")))
 /* app.listen(app.get("port"), ()=>{

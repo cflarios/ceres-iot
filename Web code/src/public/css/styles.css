@@ -70,8 +70,14 @@ svg {
   display: block;
 }
 
+
 body {
-  font: 16px/1.5 "Lato", sans-serif;
+  letter-spacing: 1px;
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  background-color: var(--page-content-bgColor);
 }
 
 
@@ -88,6 +94,79 @@ body {
   width: var(--page-header-width);
   color: var(--page-header-txtColor);
   background: var(--page-header-bgColor);
+}
+.search-and-user {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-column-gap: 50px;
+  align-items: center;
+  background: var(--page-content-bgColor);
+  margin-bottom: 30px;
+}
+
+.search-and-user form {
+  position: relative;
+}
+
+.search-and-user [type="search"] {
+  width: 100%;
+  height: 50px;
+  font-size: 1.5rem;
+  padding-left: 15px;
+  background: var(--page-content-blockColor);
+  color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.search-and-user ::placeholder {
+  color: var(--page-content-txtColor);
+}
+
+.search-and-user form svg {
+  width: 26px;
+  height: 26px;
+  fill: var(--page-content-txtColor);
+}
+
+.search-and-user form button {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+}
+
+.search-and-user .admin-profile {
+  display: flex;
+  align-items: center;
+}
+
+.search-and-user .admin-profile .greeting {
+  margin: 0 10px 0 20px;
+}
+
+.search-and-user .admin-profile svg {
+  width: 30px;
+  height: 30px;
+}
+
+.search-and-user .admin-profile .notifications {
+  position: relative;
+}
+
+.search-and-user .admin-profile .badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -10px;
+  right: -3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 10px;
+  color: var(--white);
+  background: var(--red);
 }
 
 /*In case you prefer an absolutely positioned header that covers the full page height, add these styles*/
@@ -218,35 +297,22 @@ body {
   background: var(--page-content-bgColor);
 }
 
+ figure { 
+  background-color: var(--page-header-bgColor);
+  padding: 10px 10px 30px;
+  box-shadow: 0 1px 20px 0px rgb(0 0 0 / 10%);
+  border-radius: 0.2857rem;
+} 
 
-
-.page-content .grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 30px;
-}
-
-.page-content .grid > article {
-  display: flex;
-  height: 300px;
-  background: var(--page-content-blockColor);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-}
-
-.page-content .grid > article:first-child,
-.page-content .grid > article:last-child {
-  grid-column: 1 / -1;
-}
 .inputDiv {
   width: 250px;
-  margin: 100px auto;
+  margin: 30px ;
   position: relative;
 }
 
 input[type='range'] {
   display: block;
-  width: "100%";
+  width: 250px;
 }
 
 input[type='range']:focus {
@@ -315,15 +381,16 @@ input[type=range]::-ms-fill-upper {
   height: 26px;
   position: absolute;
   z-index: 9;
-  background-color: HotPink;
-  color: white;
+  left: 230px;
+  /*background-color: HotPink;*/
+  color: var(--page-header-txtColor);
   font-size: 12px;
   text-align: center;
   padding-top: 7px;
-  top: -45px;
+  top: 0px;
 }
 
-.etiqueta:after {
+/* .etiqueta:after {
   content: '';
   display: block;
   width: 10px;
@@ -336,16 +403,17 @@ input[type=range]::-ms-fill-upper {
   background-color: HotPink;
   position: relative;
   left: 9px;
-}
-.switch {
+} */
+.switch2 {
   position: relative;
   display: inline-block;
   width: 60px;
   height: 34px;
+  top:20px;
 }
 
 /* Hide default HTML checkbox */
-.switch input {
+.switch2 input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -400,61 +468,11 @@ input:checked + .slider:before {
 }
 /*///////////////////////////////////////////////////////////*/
 
-body {
-  letter-spacing: 1px;
-  margin: 0;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: white;
-  text-align: left;
-  background-color: #1e1e2f;
-  box-sizing: border-box;
-}
-.page-header .admin-menu {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  margin-top: 35px;
-}
- 
-.page-header .admin-menu li:last-child {
-  margin-top: auto;
-  margin-bottom: 20px;
-}
- 
-.page-header .admin-menu li > * {
-  width: 100%;
-  padding: 12px 15px;
-}
- 
-.page-header .admin-menu .menu-heading h3 {
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-size: 12px;
-  margin-top: 12px;
-  color: var(--page-header-headingColor);
-}
- 
-.page-header .admin-menu a,
-.page-header .admin-menu button {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-}
+
+
 html {
   padding: 20px;
   font-weight: 300;
-}
-
-main {
-  position: absolute;
-  width: calc(100% - 100px);
-  background: ver(--white);
-  left: 50px;
-  min-height: 100vh;
-  transform: width 0.5s, left 0.5s;
-  top: 0;
 }
 
 section {
@@ -474,7 +492,7 @@ h3 {
   font-weight: 200;
 }
 h2 {
-  color: white;
+  color: var(--page-header-txtColor);
   font-size: 1.4em;
   margin-bottom: 29px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -483,15 +501,8 @@ h2 {
 }
 
 hr {
-  border-color: white;
+  border-color: var(--page-header-txtColor);
   margin-bottom: 50px;
-}
-
-figure {
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 10px 10px 30px;
-  box-shadow: 0 1px 20px 0px rgb(0 0 0 / 10%);
-  border-radius: 0.2857rem;
 }
 
 figure p {
@@ -556,6 +567,35 @@ section {
 /* MQ RULES
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 @media screen and (max-width: 767px) {
+  [class*="cols"] {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  section {
+    margin-bottom: 0px;
+    width: auto;
+    max-width: 600px
+  }
+  canvas {
+    width: 100%;
+  }
+  figure{
+    max-height: 400px;
+    width: 100%;
+  }
+  .cols-3 > * {
+    width: 100%;
+    margin: 30px;
+  }
+  .cols-2 > * {
+    width: 100%;
+    margin: 30px;
+  }
+  .cols-1 > * {
+    width: 100%;
+    margin: 30px;
+  }
   .page-header,
   .page-content {
     position: static;
@@ -611,7 +651,7 @@ section {
     padding: 10px;
   }
 
-  .page-content .grid {
+  .page-content main {
     grid-gap: 10px;
   }
 
@@ -642,10 +682,24 @@ section {
 }
 
 @media screen and (max-width: 400px) {
-  .page-content .grid > article {
+  .page-content main > figure{
     grid-column: 1 / -1;
   }
+
+  section {
+    margin-bottom: 0px;
+    width: auto;
+    max-width: 300px
+  }
+  canvas {
+    width: 100%;
+  }
+  figure{
+    max-height: 400px;
+    width: 100%;
+  }
 }
+
 
 
 /* BODY CLASSES
@@ -767,6 +821,7 @@ section {
   --page-header-txtColor: #2c303a;
   --page-header-headingColor: #979595;
   --page-content-bgColor: #fff;
+  --page-content-txtColor: #2c303a;
   --box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.25);
 }
 

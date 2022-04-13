@@ -16,10 +16,10 @@ const tankWater1 = new Chart(water1,{
     labels: [''],
     datasets: [
       {
-        label: 'Level de agua',
+        label: 'Nivel de agua',
         borderColor: styles.color.alphas[2],
         backgroundColor: styles.color.solids[1],
-        data:[34],
+        data:[],
         borderWidth:1,
         categoryPercentage: 0.77
     },
@@ -45,10 +45,10 @@ const tankWater2 = new Chart(water2,{
     labels: [''],
     datasets: [
       {
-        label: 'Level de agua',
+        label: 'Nivel de agua',
         borderColor: styles.color.alphas[2],
         backgroundColor: styles.color.solids[1],
-        data:[40],
+        data:[],
         borderWidth:1,
         categoryPercentage: 0.77
     },
@@ -76,13 +76,14 @@ const humiditySoil = new Chart(soil, {
     labels: [],
     datasets: [
       {
+        data: [],
         label: "humedad %",
         backgroundColor: ["green",gradientStroke],
         borderColor: "#00d6b4",
         borderWidth: 2,
         borderDash: [],
         borderDashOffset: 0.0,
-        data: [],
+        
       },
     ],
   },
