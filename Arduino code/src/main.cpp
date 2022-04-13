@@ -4,9 +4,12 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <Wire.h>
-#include "Adafruit_SHT31.h"
+#include "Adafruit_SHT31.h" //Librería sensor SHT31 (Importante cambiar si el sensor que usarás no es el SHT31)
 
 Adafruit_SHT31 sht31 = Adafruit_SHT31();
+
+WiFiClient espClient;
+PubSubClient client(espClient);
 
 // Credenciales de tu red Wi-Fi
 const char *ssid = "YOUR_SSID";
@@ -18,14 +21,17 @@ const char *mqtt_username = "rw";
 const char *mqtt_password = "readwrite";
 const int mqtt_port = 1884;
 
-// Tópicos
+// Tópicos que publica
 const char *topic1 = "esp32/temperatura";
 const char *topic2 = "esp32/humedad";
 const char *topic3 = "esp32/distancia";
+const char *topic6 = "esp32/humedadTierra";
+
+// Tópicos a los que se suscribe
+const char *topic4 = "esp32/LED";
+const char *topic5 = "esp32/PWM";
 
 // Variables
-WiFiClient espClient;
-PubSubClient client(espClient);
 long lastMsg = 0;
 int value = 0;
 const int ledPin = 2;
@@ -33,8 +39,10 @@ float t = 0;
 float h = 0;
 const int Trigger = 5;
 const int Echo = 18;
+const int sensor_humedad = 33;
+int mp;
 
-// PWM config
+// Slider (PWM)
 const int pwmPin = 13;
 const int freq = 5000;
 const int ledChannel = 0;
@@ -55,9 +63,9 @@ void callback(char *topic, byte *message, unsigned int length)
   }
   Serial.println();
 
-  if (String(topic) == "esp32/LED")
+  if (String(topic) == topic4)
   {
-    Serial.print("Changing output to ");
+    Serial.print("Cambiando la salida a:");
     if (messageTemp == "on")
     {
       Serial.println("Led encendido");
@@ -69,7 +77,7 @@ void callback(char *topic, byte *message, unsigned int length)
       digitalWrite(ledPin, LOW);
     }
   }
-  if (String(topic) == "esp32/PWM")
+  if (String(topic) == topic5)
   {
     slider_value = messageTemp;
     ledcWrite(ledChannel, slider_value.toInt());
@@ -82,7 +90,7 @@ void setup_wifi()
 {
 
   delay(10);
-  // We start by connecting to a WiFi network
+  // Conexión a tu red Wi-Fi
   Serial.println();
   Serial.print("Conectándose a: ");
   Serial.println(ssid);
@@ -109,9 +117,10 @@ void setup()
   pinMode(Echo, INPUT);
   pinMode(ledPin, OUTPUT);
 
-  ledcSetup(ledChannel, freq, resolution); // PWM setup
+  ledcSetup(ledChannel, freq, resolution);
   ledcAttachPin(pwmPin, ledChannel);
   ledcWrite(ledChannel, slider_value.toInt());
+
   setup_wifi();
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
@@ -126,25 +135,25 @@ void setup()
 
 void reconnect()
 {
-  // Loop until we're reconnected
+  // Loop hasta que se conecte
   while (!client.connected())
   {
     String client_id = "esp32-client-";
     client_id += String(WiFi.macAddress());
     Serial.print("Intentando conexión MQTT..");
-    // Attempt to connect
+    // Intento de reconección
     if (client.connect(client_id.c_str(), mqtt_username, mqtt_password))
     {
       Serial.println("¡conectado!");
-      client.subscribe("esp32/LED");
-      client.subscribe("esp32/PWM");
+      client.subscribe(topic4);
+      client.subscribe(topic5);
     }
     else
     {
       Serial.print("falló, rc=");
       Serial.print(client.state());
       Serial.println(" intentar otra vez en 5 segundos");
-      // Wait 5 seconds before retrying
+      // Espera 5 segundos y vuelve a intentar
       delay(5000);
     }
   }
@@ -166,7 +175,8 @@ void loop()
   {
     lastMsg = now;
 
-    t = sht31.readTemperature(); // Convertir la variable t de float a char
+    t = sht31.readTemperature();
+    // Convertir la variable t de float a array char
     char tempString[8];
     dtostrf(t, 1, 2, tempString);
     Serial.print("Temperatura: ");
@@ -175,7 +185,8 @@ void loop()
     Serial.println("");
     client.publish(topic1, tempString);
 
-    h = sht31.readHumidity(); // Convertir la variable h de float a char
+    h = sht31.readHumidity();
+    // Convertir la variable h de float a array char
     char humString[8];
     dtostrf(h, 1, 2, humString);
     Serial.print("Humedad: ");
@@ -189,9 +200,11 @@ void loop()
     delayMicroseconds(10); // Enviamos un pulso de 10us
     digitalWrite(Trigger, LOW);
 
-    time = pulseIn(Echo, HIGH); // Obtenemos el ancho del pulso
+    // Obtenemos el ancho del pulso
+    time = pulseIn(Echo, HIGH);
     distance = time * 0.034 / 2;
 
+    // Convertir la variable distance de float a array char
     char distanceString[8];
     dtostrf(distance, 1, 2, distanceString);
     Serial.print("Distancia: ");
@@ -200,5 +213,19 @@ void loop()
     Serial.println("");
     delay(1000);
     client.publish(topic3, distanceString);
+
+    // Mapeo de la lectura análoga
+    mp = analogRead(sensor_humedad);
+    mp = map(mp, 4095, 0, 0, 100);
+
+    // Convertir la variable mp de int a array char
+    char mpString[8];
+    dtostrf(mp, 1, 2, mpString);
+    Serial.print("Humedad de la tierra: ");
+    Serial.print(mpString);
+    Serial.print(" %");
+    Serial.println("");
+    delay(1000);
+    client.publish(topic6, mpString);
   }
 }
