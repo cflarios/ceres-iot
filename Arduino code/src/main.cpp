@@ -1,4 +1,3 @@
-// Librerías
 #include <Arduino.h>
 #include <SPI.h>
 #include <WiFi.h>
@@ -9,14 +8,14 @@
 Adafruit_SHT31 sht31 = Adafruit_SHT31();
 
 // Credenciales de tu red Wi-Fi
-const char *ssid = "YOUR_SSID";
-const char *password = "YOUR_PASSWORD";
+const char *ssid = "Juan Jose";
+const char *password = "pacoymono";
 
 // Credenciales de tu servidor MQTT
 const char *mqtt_server = "test.mosquitto.org";
 const char *mqtt_username = "rw";
 const char *mqtt_password = "readwrite";
-const int mqtt_port = 1884;
+const int mqtt_port = 1883;
 
 // Tópicos
 const char *topic1 = "esp32/temperatura";
@@ -35,11 +34,20 @@ const int Trigger = 5;
 const int Echo = 18;
 
 // PWM config
-const int pwmPin = 13;
+const int pwmPin = 4;
 const int freq = 5000;
 const int ledChannel = 0;
+const int ledChannel2 = 0;
 const int resolution = 8;
 String slider_value = "0";
+
+//Tanque
+#define ledfull  16
+#define ledmiddle  17
+#define ledlow  18
+#define bombaon  25
+#define bombaoff 12
+
 
 void callback(char *topic, byte *message, unsigned int length)
 {
@@ -68,11 +76,39 @@ void callback(char *topic, byte *message, unsigned int length)
       Serial.println("Led apagado");
       digitalWrite(ledPin, LOW);
     }
+  
+  //nivel y bomba del tanque
   }
   if (String(topic) == "esp32/PWM")
   {
-    slider_value = messageTemp;
-    ledcWrite(ledChannel, slider_value.toInt());
+    if (messageTemp >"50"){
+    digitalWrite(ledfull, HIGH);
+    digitalWrite(ledmiddle, LOW);
+    digitalWrite(ledlow, LOW);
+    
+    }
+    
+    if(messageTemp >"90"){
+      digitalWrite(bombaoff,HIGH);
+      digitalWrite(bombaon,LOW);
+    }
+
+    if(messageTemp <= "50"){
+    digitalWrite(ledmiddle, HIGH);
+    digitalWrite(ledfull, LOW);
+    digitalWrite(ledlow, LOW);
+    }
+
+    if(messageTemp == "0" ){
+    digitalWrite(ledmiddle, LOW);
+    digitalWrite(ledfull, LOW);
+     digitalWrite(ledlow, HIGH);
+    digitalWrite(bombaon, HIGH);
+    digitalWrite(bombaoff,LOW);
+    }
+    
+  
+
   }
 
   Serial.println();
@@ -108,20 +144,37 @@ void setup()
   pinMode(Trigger, OUTPUT);
   pinMode(Echo, INPUT);
   pinMode(ledPin, OUTPUT);
+  pinMode(ledfull,OUTPUT);
+  pinMode(ledmiddle,OUTPUT);
+  pinMode(ledlow,OUTPUT);
+  pinMode(bombaoff,OUTPUT);
+  pinMode(bombaon,OUTPUT);
+
+//definir
+ digitalWrite(ledmiddle, LOW);
+    digitalWrite(ledfull, LOW);
+    digitalWrite(ledlow, LOW);
+    digitalWrite(bombaoff, LOW);
+    digitalWrite(bombaon, LOW);
 
   ledcSetup(ledChannel, freq, resolution); // PWM setup
   ledcAttachPin(pwmPin, ledChannel);
   ledcWrite(ledChannel, slider_value.toInt());
+
+
+  
+
+
   setup_wifi();
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
 
-  if (!sht31.begin(0x44))
+  /*if (!sht31.begin(0x44))
   {
     Serial.println("No se pudo encontrar el SHT31");
     while (1)
       delay(1);
-  }
+  }*/
 }
 
 void reconnect()
@@ -165,7 +218,7 @@ void loop()
   if (now - lastMsg > 5000)
   {
     lastMsg = now;
-
+    /*
     t = sht31.readTemperature(); // Convertir la variable t de float a char
     char tempString[8];
     dtostrf(t, 1, 2, tempString);
@@ -184,7 +237,7 @@ void loop()
     Serial.println("");
     delay(1000);
     client.publish(topic2, humString);
-
+  */
     digitalWrite(Trigger, HIGH);
     delayMicroseconds(10); // Enviamos un pulso de 10us
     digitalWrite(Trigger, LOW);
