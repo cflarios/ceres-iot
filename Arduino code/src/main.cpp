@@ -24,10 +24,10 @@ const int mqtt_port = 1884;
 // Tópicos que publica
 const char *topic1 = "ceres/sensor/ambiente/temperatura";
 const char *topic2 = "ceres/sensor/ambiente/humedad";
-const char *topic3 = "ceres/sensor/distancia";
+const char *topic3 = "ceres/sensor/distancia"; // Tópico de prueba, no irá en la versión beta de Ceres.
 const char *topic6 = "ceres/sensor/planta/humedad-tierra";
-const char *topic7 = "ceres/tanque/principal";
-const char *topic8 = "ceres/tanque/auxiliar";
+//const char *topic7 = "ceres/tanque/principal"; ---> Ignorar este topico
+//const char *topic8 = "ceres/tanque/auxiliar"; ----> Este también ignoralo
 const char *topic9 = "ceres/tanque/principal/volumen-total";       // La cantidad que soporta el tanque principal es (...) litros
 const char *topic10 = "ceres/tanque/auxiliar/volumen-total";       // La cantidad que soporta el tanque auxiliar es (...) litros
 const char *topic11 = "ceres/tanque/principal/volumen-liquido";    // La cantidad de liquido faltante en el interior del tanque principal es: (...) litros
@@ -428,25 +428,25 @@ void loop()
     if (distance_two > 15)
     {
       client.publish(topic16, "El tanque auxiliar está en nivel bajo");
-      client.publish(topic9, vl_two_String);
-      client.publish(topic11, NTl_two_String);
-      client.publish(topic13, c_two_String);
+      client.publish(topic10, vl_two_String);
+      client.publish(topic12, NTl_two_String);
+      client.publish(topic14, c_two_String);
     }
     // Nivel medio
     if ((distance_two >= 9) && (distance_two <= 15))
     {
       client.publish(topic16, "El tanque auxiliar está en nivel medio");
-      client.publish(topic9, vl_two_String);
-      client.publish(topic11, NTl_two_String);
-      client.publish(topic13, c_two_String);
+      client.publish(topic10, vl_two_String);
+      client.publish(topic12, NTl_two_String);
+      client.publish(topic14, c_two_String);
     }
     // Nivel alto
     if ((distance_two < 9))
     {
       client.publish(topic16, "El tanque auxiliar está en nivel alto");
-      client.publish(topic9, vl_two_String);
-      client.publish(topic11, NTl_two_String);
-      client.publish(topic13, c_two_String);
+      client.publish(topic10, vl_two_String);
+      client.publish(topic12, NTl_two_String);
+      client.publish(topic14, c_two_String);
     }
   }
 }
