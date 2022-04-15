@@ -7,7 +7,7 @@
   --page-header-bgColor-hover: #1d2636;
   --page-header-txtColor: #dde9f8;
   --page-header-headingColor: #7889a4;
-  --page-header-width: 220px;
+  --page-header-width: 17%;
   --page-content-bgColor: #1e1e2f;
   --page-content-txtColor: #e7e4e4;
   --page-content-blockColor: #fff;
@@ -292,18 +292,38 @@ body {
   left: var(--page-header-width);
   width: calc(100% - var(--page-header-width));
   min-height: 100vh;
-  padding: 30px;
+  padding: 5px;
   color: var(--page-content-txtColor);
   background: var(--page-content-bgColor);
 }
 
  figure { 
+  max-height: 400px;
   background-color: var(--page-header-bgColor);
-  padding: 10px 10px 30px;
+  padding: 10px 10px 30px 30px;
   box-shadow: 0 1px 20px 0px rgb(0 0 0 / 10%);
   border-radius: 0.2857rem;
-} 
+}
+ .minfigure { 
+  max-height: 190px;
+  background-color: var(--page-header-bgColor);
+  padding: 10px 10px 30px 30px;
+  box-shadow: 0 1px 20px 0px rgb(0 0 0 / 10%);
+  border-radius: 0.2857rem;
+}
+section {
+  margin-bottom: 15px;
+}
+section {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
+.running section {
+  opacity: 1;
+}
+
+ 
 .inputDiv {
   width: 250px;
   margin: 30px ;
@@ -475,10 +495,6 @@ html {
   font-weight: 300;
 }
 
-section {
-  margin-bottom: 40px;
-}
-
 h1 {
   font-size: 3em;
   font-weight: 100;
@@ -486,7 +502,7 @@ h1 {
 
 h3 {
   font-size: 1.4em;
-  margin-bottom: 29px;
+  margin-bottom: 15px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   padding-bottom: 15px;
   font-weight: 200;
@@ -512,7 +528,9 @@ figure p {
 
 canvas {
   width: 100%;
+  max-height: 300px;
 }
+
 
 /* grid */
 
@@ -537,24 +555,8 @@ canvas {
   margin: 10px;
 }
 
-#tempGrafic {
-  max-height: 300px;
-}
-#humSoil {
-  max-height: 300px;
-}
-#cylGauge1,
-#cylGauge2 {
-  max-height: 300px;
-}
-section {
-  opacity: 0;
-  transition: opacity 0.3s;
-}
 
-.running section {
-  opacity: 1;
-}
+
 
 .loading {
   position: absolute;

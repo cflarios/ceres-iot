@@ -24,17 +24,55 @@
           <p>Visualización de estadísticas</p>
           <hr />
           <h2 class="loading">Esperando respuesta de la API...</h2> -->
-
-            <section class="cols-2">
+            <section class="cols-3">
               <figure>
-                <p>Humedad de la Tierra</p>
-                <h3>----------</h3>
-                <canvas id="humSoil"></canvas>
+                <p>Nivel de Agua</p>
+                <h3>Tanque Principal</h3>
+                <canvas id="cylGauge1"></canvas>
               </figure>
+              <div>
+                <figure class="minfigure">
+                  <p>Información del Tanque</p>
+                  <h3>Tanque Pricipal</h3>
+                  <div class="column">
+                    <div class="row">
+                      <p>Volumen Total:</p>
+                      <p id="totalPricipal"></p>
+                    </div>
+                    <div class="row">
+                      <p>Volumen Liquido: </p>
+                      <p id="liquidoPricipal"></p>
+                    </div>
+                    <div class="row">
+                      <p>Estado del tanque: </p>
+                      <p id="estadoPricipal"></p>
+                    </div>
+                  </div>
+                </figure>
+                <figure class="minfigure">
+                  <p>Información del Tanque</p>
+                  <h3>Tanque Reserva</h3>
+                  <div>
+                    <div class="row">
+                      <p>Volumen Total: </p>
+                      <p id="totalReserva"></p>
+                    </div>
+                    <div class="row">
+                      <p>Volumen Liquido: </p>
+                      <p id="liquidoReserva"></p>
+                    </div>
+                    <div class="row">
+                      <p>Estado del tanque: </p>
+                      <p id="estadoReserva"></p>
+                    </div>
+                  </div>
+                </figure>
+              </div>
+
               <figure>
-                <p>Nivel Tanque de Agua</p>
-                <h3>----------</h3>
-                <canvas id=""></canvas>
+                <p>Nivel de Agua</p>
+                <h3>Tanque Reserva</h3>
+                <canvas id="cylGauge2"></canvas>
               </figure>
             </section>
 
@@ -50,13 +88,12 @@
               <figure>
                 <p>Nivel de Agua</p>
                 <h3>Tanque de Agua Principal</h3>
-                <canvas id="cylGauge1"></canvas>
+                <canvas id="humEnv"></canvas>
               </figure>
-
               <figure>
-                <p>Nivel de Agua</p>
-                <h3>Tanque de Agua de Reserva</h3>
-                <canvas id="cylGauge2"></canvas>
+                <p>Humedad de la Tierra</p>
+                <h3>----------</h3>
+                <canvas id="humSoil"></canvas>
               </figure>
             </section>
             <section class="cols-1">
@@ -115,13 +152,28 @@
 
         </script>
         <script>
+         // const temp = document.getElementById("tempGrafic")
+
+        </script>
+        <script>
+          const topic1 = "ceres/sensor/ambiente/temperatura";
+          const topic2 = "ceres/sensor/ambiente/humedad";
+          const topic3 = "ceres/sensor/distancia";
+          const topic6 = "ceres/sensor/planta/humedad-tierra";
+          const topic7 = "ceres/tanque/principal/estado";
+          const topic8 = "ceres/tanque/auxiliar/estado";
+          const topic9 = "ceres/tanque/principal/volumen-total";
+          const topic10 = "ceres/tanque/auxiliar/volumen-total";
+          const topic11 = "ceres/tanque/principal/volumen-liquido";
+          const topic12 = "ceres/tanque/auxiliar/volumen-liquido";
+          const topic13 = "ceres/tanque/principal/porcentaje-liquido";
+          const topic14 = "ceres/tanque/auxiliar/porcentaje-liquido";
           let counters = 0;
           let uno = 0;
           let dos = 0;
           let tres = 0;
           var socket = io();
           socket.on('esp:temperatura', function (data) {
-            console.log("que riko la:" + data.value)
             temperatureGrafic.data.labels.push(counters);
             temperatureGrafic.data.datasets.forEach((dataset) => {
               dataset.data.push(data.value);
@@ -137,18 +189,57 @@
             });
             humiditySoil.update();
           })
+          socket.on('esp:humedad2', function (data) {
+            uno = data.value;
+            dos = 100 - data.value;
+            environmentHumedity.data.datasets.forEach((dataset) => {
+              dataset.data = [uno, dos];
+            });
+            environmentHumedity.update();
+          })
+          "humEnv"
           socket.on('esp:distancia', function (data) {
             tankWater1.data.datasets.forEach((dataset) => {
               dataset.data = [data.value];
             });
             tankWater1.update();
           })
-          socket.on('esp:distancia', function (data) {
+          socket.on('esp:distancia2', function (data) {
             tankWater2.data.datasets.forEach((dataset) => {
               dataset.data = [data.value];
             });
             tankWater2.update();
           })
+
+          socket.on('esp:temperatura', function (data) {
+            var dato = document.getElementById("estadoPricipal");
+            dato.innerHTML = data.value
+          })
+          socket.on('esp:temperatura', function (data) {
+            var dato = document.getElementById("totalPricipal");
+            dato.innerHTML = data.value
+          })
+          socket.on('esp:temperatura', function (data) {
+            var dato = document.getElementById("liquidoPricipal" );
+            dato.innerHTML =data.value
+          })
+          socket.on('esp:temperatura', function (data) {
+            var dato = document.getElementById("estadoReserva");
+            dato.innerHTML = data.value
+          })
+          socket.on('esp:temperatura', function (data) {
+            var dato = document.getElementById("totalReserva");
+            dato.innerHTML = data.value
+          })
+          socket.on('esp:temperatura', function (data) {
+            var dato = document.getElementById("liquidoReserva");
+            dato.innerHTML = data.value
+          })
+
+
+
+
+
         </script>
         <script src="js/paint.js"></script>
 </body>
