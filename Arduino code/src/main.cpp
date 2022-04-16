@@ -4,7 +4,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <Wire.h>
-//#include <TimeLib.h> //libreria contador
+#include <TimeLib.h>
 #include "Adafruit_SHT31.h" //Librería sensor SHT31 (Importante cambiar si el sensor que usarás no es el SHT31)
 
 Adafruit_SHT31 sht31 = Adafruit_SHT31();
@@ -44,8 +44,8 @@ const char *topic5 = "ceres/slider";
 long lastMsg = 0;
 int value = 0;
 const int ledPin = 2;
-float t = 0;
-float h = 0;
+float temp = 0;
+float hum = 0;
 const int Trigger_one = 5; // Sensor ultrasónico tanque principal
 const int Echo_one = 18;
 const int Trigger_two = 33; // Sensor ultrasónico tanque auxiliar
@@ -158,8 +158,8 @@ void setup()
 {
   Serial.begin(9600);
 
-//definir hora , minutos , segundos,dia,mes,año
-  setTime(2,45,0,16,04,2022);
+  // Timer: hora, minutos, segundos, día, mes y año.
+  setTime(2, 45, 0, 16, 04, 2022);
 
   // Ultrasónicos
   pinMode(Trigger_one, OUTPUT);
@@ -174,12 +174,12 @@ void setup()
   pinMode(Bomba_Entrada, OUTPUT);
   pinMode(Bomba_Salida, OUTPUT);
 
-  // Leds indicadores del Tanque N°1
+  // Leds indicadores del Tanque Principal
   pinMode(led_low_one, OUTPUT);
   pinMode(led_middle_one, OUTPUT);
   pinMode(led_full_one, OUTPUT);
 
-  // Leds indicadores del Tanque N°2
+  // Leds indicadores del Tanque Auxiliar
   pinMode(led_low_two, OUTPUT);
   pinMode(led_middle_two, OUTPUT);
   pinMode(led_full_two, OUTPUT);
@@ -189,10 +189,12 @@ void setup()
   ledcAttachPin(Pwm_pin, led_channel);
   ledcWrite(led_channel, slider_value.toInt());
 
+  // Llamamos los otros voids
   setup_wifi();
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
 
+  // Verificamos si el sensor SHT31 está bien conectado
   if (!sht31.begin(0x44))
   {
     Serial.println("No se pudo encontrar el SHT31");
@@ -229,28 +231,28 @@ void reconnect()
 
 void loop()
 {
+  // Variable t para el contador
+  time_t t = now();
 
-//Declaramos la variable time_t t
-time_t t = now();
-
-//Imprimimos la fecha y lahora
+  // Imprimimos la fecha y la hora
   Serial.print(day(t));
-  Serial.print(+ "/") ;
+  Serial.print(+"/");
   Serial.print(month(t));
-  Serial.print(+ "/") ;
-  Serial.print(year(t)); 
-  Serial.print( " ") ;
-  Serial.print(hour(t));  
-  Serial.print(+ ":") ;
+  Serial.print(+"/");
+  Serial.print(year(t));
+  Serial.print(" ");
+  Serial.print(hour(t));
+  Serial.print(+":");
   Serial.print(minute(t));
-  Serial.print(":") ;
+  Serial.print(":");
   Serial.println(second(t));
-  delay(1000);//Esperamos 1 segundo
+  delay(1000); // Esperamos 1 segundo
 
-
+  // Ultrasónico del tanque principal
   long time_one;
   float distance_one;
 
+  // Ultrasónico del tanque auxiliar
   long time_two;
   float distance_two;
 
@@ -265,20 +267,20 @@ time_t t = now();
   {
     lastMsg = now;
 
-    t = sht31.readTemperature();
+    temp = sht31.readTemperature();
     // Convertir la variable t de float a array char
     char tempString[8];
-    dtostrf(t, 1, 2, tempString);
+    dtostrf(temp, 1, 2, tempString);
     Serial.print("Temperatura: ");
     Serial.print(tempString);
     Serial.print(" °C");
     Serial.println("");
     client.publish(topic1, tempString);
 
-    h = sht31.readHumidity();
+    hum = sht31.readHumidity();
     // Convertir la variable h de float a array char
     char humString[8];
-    dtostrf(h, 1, 2, humString);
+    dtostrf(hum, 1, 2, humString);
     Serial.print("Humedad: ");
     Serial.print(humString);
     Serial.print(" %");
@@ -354,7 +356,7 @@ time_t t = now();
       digitalWrite(led_middle_one, LOW);
       digitalWrite(led_full_one, LOW);
       // Este condicional verifica si el tanque auxiliar tiene suficiente agua para el principal, si la tiene entonces se activa la bomba principal
-      if ((distance_two >= 5) && (distance_two <= 18))
+      if (c_two >= 20)
       {
         digitalWrite(Bomba_Entrada, HIGH);
       }
@@ -367,31 +369,16 @@ time_t t = now();
       digitalWrite(led_middle_one, HIGH);
       digitalWrite(led_full_one, LOW);
       // Este condicional verifica si el tanque auxiliar tiene suficiente agua para el principal, si la tiene entonces se activa la bomba principal
-      if ((distance_two >= 5) && (distance_two <= 18))
+      if (c_two >= 20)
       {
         digitalWrite(Bomba_Entrada, HIGH);
       }
       // Este condicional es para activar la bomba de salida en caso de que la humedad de la planta lo requiera
-      //tambien se tiene en cuenta un tiempo asignado a la planta
-      if (mp == 30 && hour(t)=="digitar la hora" && minute(t)=="digitar el minuto" )//riego #1
+      if (mp == 20 && hour(t) == 0 && minute(t) == 1) // También se añade un regado automático cada cierto tiempo
       {
         digitalWrite(Bomba_Salida, HIGH);
         Serial.print("La bomba de salida está activada...");
       }
-
-     if (mp == 30 && hour(t)=="digitar la hora" && minute(t)=="digitar el minuto" )//riego #2
-      {
-        digitalWrite(Bomba_Salida, HIGH);
-        Serial.print("La bomba de salida está activada...");
-      }
-
-
-      if (mp == 30 && hour(t)=="digitar la hora" && minute(t)=="digitar el minuto" )//riego #3
-      {
-        digitalWrite(Bomba_Salida, HIGH);
-        Serial.print("La bomba de salida está activada...");
-      }
-
     }
     // Este condicional es cuando el tanque está casi lleno (nivel alto)
     if ((distance_one >= 5) && (distance_one <= 7))
@@ -401,7 +388,7 @@ time_t t = now();
       digitalWrite(led_middle_one, LOW);
       digitalWrite(led_full_one, HIGH);
       // Este condicional es para activar la bomba de salida en caso de que la humedad de la planta lo requiera
-      if (mp == 20)
+      if (mp == 20 && hour(t) == 0 && minute(t) == 1) // También se añade un regado automático cada cierto tiempo
       {
         digitalWrite(Bomba_Entrada, LOW);
         digitalWrite(Bomba_Salida, HIGH);
