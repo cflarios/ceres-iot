@@ -26,16 +26,14 @@ const char *topic1 = "ceres/sensor/ambiente/temperatura";
 const char *topic2 = "ceres/sensor/ambiente/humedad";
 const char *topic3 = "ceres/sensor/distancia";
 const char *topic6 = "ceres/sensor/planta/humedad-tierra";
-const char *topic7 = "ceres/tanque/principal";
-const char *topic8 = "ceres/tanque/auxiliar";
+const char *topic7 = "ceres/tanque/principal/estado";              // El estado del tanque principal es (...)
+const char *topic8 = "ceres/tanque/auxiliar/estado";               // El estado del tanque auxiliar es (...)
 const char *topic9 = "ceres/tanque/principal/volumen-total";       // La cantidad que soporta el tanque principal es (...) litros
 const char *topic10 = "ceres/tanque/auxiliar/volumen-total";       // La cantidad que soporta el tanque auxiliar es (...) litros
 const char *topic11 = "ceres/tanque/principal/volumen-liquido";    // La cantidad de liquido faltante en el interior del tanque principal es: (...) litros
 const char *topic12 = "ceres/tanque/auxiliar/volumen-liquido";     // La cantidad de liquido faltante en el interior del tanque auxiliar es: (...) litros
 const char *topic13 = "ceres/tanque/principal/porcentaje-liquido"; // El porcentaje que ocupa el liquido en el tanque principal es: (...) %
 const char *topic14 = "ceres/tanque/auxiliar/porcentaje-liquido";  // El porcentaje que ocupa el liquido en el tanque auxiliar es: (...) %
-const char *topic15 = "ceres/tanque/principal/estado";             // El estado del tanque principal es (...)
-const char *topic16 = "ceres/tanque/auxiliar/estado";              // El estado del tanque auxiliar es (...)
 
 // Tópicos a los que se suscribe
 const char *topic4 = "ceres/led";
