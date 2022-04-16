@@ -4,7 +4,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <Wire.h>
-#include <TimeLib.h> //libreria contador
+//#include <TimeLib.h> //libreria contador
 #include "Adafruit_SHT31.h" //Librería sensor SHT31 (Importante cambiar si el sensor que usarás no es el SHT31)
 
 Adafruit_SHT31 sht31 = Adafruit_SHT31();
