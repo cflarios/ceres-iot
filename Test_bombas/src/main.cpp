@@ -123,7 +123,7 @@ void callback(char *topic, byte *message, unsigned int length)
       digitalWrite(led_full_one, LOW);
       digitalWrite(Bomba_Entrada, LOW);
       digitalWrite(Bomba_Salida, HIGH);
-      client.publish(topic15, "El tanque principal está en nivel bajo");
+      client.publish(topic15, "Nivel bajo");
     }
 
     if ((messageTemp >= "11") && (messageTemp <= "13"))
@@ -131,7 +131,7 @@ void callback(char *topic, byte *message, unsigned int length)
       digitalWrite(led_low_one, LOW);
       digitalWrite(led_middle_one, HIGH);
       digitalWrite(led_full_one, LOW);
-      client.publish(topic15, "El tanque principal está en nivel medio");
+      client.publish(topic15, "Nivel medio");
     }
 
     if ((messageTemp >= "5") && (messageTemp <= "7"))
@@ -141,7 +141,7 @@ void callback(char *topic, byte *message, unsigned int length)
       digitalWrite(led_full_one, HIGH);
       digitalWrite(Bomba_Entrada, HIGH);
       digitalWrite(Bomba_Salida, LOW);
-      client.publish(topic15, "El tanque principal está en nivel alto");
+      client.publish(topic15, "Nivel alto");
     }
   }
   if (String(topic) == topic17)
@@ -153,7 +153,7 @@ void callback(char *topic, byte *message, unsigned int length)
       digitalWrite(led_full_two, LOW);
       digitalWrite(Bomba_Entrada, LOW);
       digitalWrite(Bomba_Salida, HIGH);
-      client.publish(topic16, "El tanque auxiliar está en nivel bajo");
+      client.publish(topic16, "Nivel bajo");
     }
 
     if ((messageTemp >= "11") && (messageTemp <= "13"))
@@ -161,7 +161,7 @@ void callback(char *topic, byte *message, unsigned int length)
       digitalWrite(led_low_two, LOW);
       digitalWrite(led_middle_two, HIGH);
       digitalWrite(led_full_two, LOW);
-      client.publish(topic16, "El tanque auxiliar está en nivel medio");
+      client.publish(topic16, "Nivel medio");
     }
 
     if ((messageTemp >= "5") && (messageTemp <= "7"))
@@ -171,7 +171,7 @@ void callback(char *topic, byte *message, unsigned int length)
       digitalWrite(led_full_two, HIGH);
       digitalWrite(Bomba_Entrada, HIGH);
       digitalWrite(Bomba_Salida, LOW);
-      client.publish(topic16, "El tanque auxiliar está en nivel alto");
+      client.publish(topic16, "Nivel alto");
     }
   }
 
