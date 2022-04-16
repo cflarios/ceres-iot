@@ -15,114 +15,116 @@
 
 <body class="running">
   <%- include ("partials/svg.html") %>
-    <%- include ("partials/Sidebar.html") %>
+    <%- include ("partials/sidebar.html") %>
 
       <section class="page-content">
-        <%- include ("partials/navbar.html") %>
-          <main>
-            <!-- <h1>Monitoreo de Esp32/Ceres_IoT</h1>
+        <main>
+          <!-- <h1>Monitoreo de Esp32/Ceres_IoT</h1>
           <p>Visualización de estadísticas</p>
           <hr />
           <h2 class="loading">Esperando respuesta de la API...</h2> -->
-            <section class="cols-3">
-              <figure>
-                <p>Nivel de Agua</p>
-                <h3>Tanque Principal</h3>
-                <canvas id="cylGauge1"></canvas>
+          <section class="cols-3">
+            <figure>
+              <p>Nivel de Agua</p>
+              <h3>Tanque Principal</h3>
+              <canvas id="cylGauge1"></canvas>
+            </figure>
+            <div>
+              <figure class="minfigure">
+                <p>Información del Tanque</p>
+                <h3>Tanque Pricipal</h3>
+                <div class="column">
+                  <div class="row">
+                    <p>Volumen Total:&ensp;</p>
+                    <p id="totalPricipal"></p>
+                  </div>
+                  <div class="row">
+                    <p>Liquido Faltante:&ensp;</p>
+                    <p id="liquidoPricipal"></p>
+                  </div>
+                  <div class="row">
+                    <p>Estado del tanque:&ensp;</p>
+                    <p id="estadoPricipal"></p>
+                  </div>
+                </div>
               </figure>
-              <div>
-                <figure class="minfigure">
-                  <p>Información del Tanque</p>
-                  <h3>Tanque Pricipal</h3>
-                  <div class="column">
-                    <div class="row">
-                      <p>Volumen Total:</p>
-                      <p id="totalPricipal"></p>
-                    </div>
-                    <div class="row">
-                      <p>Volumen Liquido: </p>
-                      <p id="liquidoPricipal"></p>
-                    </div>
-                    <div class="row">
-                      <p>Estado del tanque: </p>
-                      <p id="estadoPricipal"></p>
-                    </div>
-                  </div>
-                </figure>
-                <figure class="minfigure">
-                  <p>Información del Tanque</p>
-                  <h3>Tanque Reserva</h3>
-                  <div>
-                    <div class="row">
-                      <p>Volumen Total: </p>
-                      <p id="totalReserva"></p>
-                    </div>
-                    <div class="row">
-                      <p>Volumen Liquido: </p>
-                      <p id="liquidoReserva"></p>
-                    </div>
-                    <div class="row">
-                      <p>Estado del tanque: </p>
-                      <p id="estadoReserva"></p>
-                    </div>
-                  </div>
-                </figure>
-              </div>
-
-              <figure>
-                <p>Nivel de Agua</p>
+              <figure class="minfigure">
+                <p>Información del Tanque</p>
                 <h3>Tanque Reserva</h3>
-                <canvas id="cylGauge2"></canvas>
-              </figure>
-            </section>
-
-            <section class="cols-1">
-              <figure>
-                <p>Gráfico lineal</p>
-                <h3>Grafico de Temperatura</h3>
-                <canvas id="tempGrafic"></canvas>
-              </figure>
-            </section>
-
-            <section class="cols-2">
-              <figure>
-                <p>Nivel de Agua</p>
-                <h3>Tanque de Agua Principal</h3>
-                <canvas id="humEnv"></canvas>
-              </figure>
-              <figure>
-                <p>Humedad de la Tierra</p>
-                <h3>----------</h3>
-                <canvas id="humSoil"></canvas>
-              </figure>
-            </section>
-            <section class="cols-1">
-              <figure>
-                <p>Panel de Control</p>
-                <h3>Control de Llenado</h3>
-
-                <div class="inputDiv">
-                  <label for="customRange1" class="form-label">Slider de PWM</label>
-                  <div class="etiqueta"></div>
-                  <input type="range" class="form-range" id="input3" value="0" min="0" max="255" autocomplete="off">
+                <div>
+                  <div class="row">
+                    <p>Volumen Total:&ensp;</p>
+                    <p id="totalReserva"></p>
+                  </div>
+                  <div class="row">
+                    <p>Liquido Faltante:&ensp;</p>
+                    <p id="liquidoReserva"></p>
+                  </div>
+                  <div class="row">
+                    <p>Estado del tanque:&ensp;</p>
+                    <p id="estadoReserva"></p>
+                  </div>
                 </div>
-                <div class="inputDiv">
-                  <label for="customRange1" class="form-label">LED</label>
-                  <label class="switch2">
-                    <input type="checkbox" id="myCheck" onclick="myFunction()">
-                    <span class="slider round"></span>
-                  </label>
-                </div>
-
               </figure>
-            </section>
             </div>
 
-          </main>
+            <figure>
+              <p>Nivel de Agua</p>
+              <h3>Tanque Reserva</h3>
+              <canvas id="cylGauge2"></canvas>
+            </figure>
+          </section>
+
+          <section class="cols-1">
+            <figure>
+              <p>Gráfico lineal</p>
+              <h3>Grafico de Temperatura</h3>
+              <canvas id="tempGrafic"></canvas>
+            </figure>
+          </section>
+
+          <section class="cols-2">
+            <figure>
+              <p>Humedad de ambiente</p>
+              <h3>Porcentaje de Humedad del ambiente</h3>
+              <canvas id="humEnv"></canvas>
+            </figure>
+            <figure>
+              <p>Humedad de la Tierra</p>
+              <h3>Porcentaje de Humedad de Tierra</h3>
+              <canvas id="humSoil"></canvas>
+            </figure>
+          </section>
+          <section class="cols-1">
+            <figure>
+              <p>Panel de Control</p>
+              <h3>Control de Llenado</h3>
+
+              <div class="inputDiv">
+                <label for="customRange1" class="form-label">Slider de PWM</label>
+                <div class="etiqueta"></div>
+                <input type="range" class="form-range" id="input3" value="0" min="0" max="255" autocomplete="off">
+              </div>
+              <div class="inputDiv">
+                <label for="customRange1" class="form-label">LED</label>
+                <label class="switch2">
+                  <input type="checkbox" id="myCheck" onclick="myFunction()">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+
+            </figure>
+          </section>
+          </div>
+
+        </main>
       </section>
       <%- include ('partials/footer.html') %>
         <script src="/socket.io/socket.io.js"></script>
         <script>
+          // Tópicos a los que se suscribe
+          const topic4 = "ceres/led";
+          const topic5 = "ceres/slider";
           var socket = io();
           function myFunction() {
             // Get the checkbox
@@ -130,9 +132,9 @@
             // Get the output text
             // If the checkbox is checked, display the output text
             if (checkBox.checked == true) {
-              socket.emit("esp32:luz", 'on')
+              socket.emit(topic4, 'on')
             } else {
-              socket.emit("esp32:luz", 'off')
+              socket.emit(topic4, 'off')
             }
           }
           var elInput3 = document.querySelector('#input3');
@@ -144,7 +146,7 @@
                 // cambia el valor de la etiqueta (el tooltip) 
                 etq.innerHTML = elInput3.value;
                 // cambia la posición de la etiqueta (el tooltip) 
-                socket.emit("esp32:slider", elInput3.value)
+                socket.emit(topic5, elInput3.value)
               }, false);
 
             }
@@ -156,6 +158,7 @@
 
         </script>
         <script>
+          // Tópicos que publica
           const topic1 = "ceres/sensor/ambiente/temperatura";
           const topic2 = "ceres/sensor/ambiente/humedad";
           const topic3 = "ceres/sensor/distancia";
@@ -168,12 +171,13 @@
           const topic12 = "ceres/tanque/auxiliar/volumen-liquido";
           const topic13 = "ceres/tanque/principal/porcentaje-liquido";
           const topic14 = "ceres/tanque/auxiliar/porcentaje-liquido";
+          
           let counters = 0;
           let uno = 0;
           let dos = 0;
           let tres = 0;
           var socket = io();
-          socket.on('esp:temperatura', function (data) {
+          socket.on(topic1, function (data) {
             temperatureGrafic.data.labels.push(counters);
             temperatureGrafic.data.datasets.forEach((dataset) => {
               dataset.data.push(data.value);
@@ -181,7 +185,7 @@
             counters++;
             temperatureGrafic.update();
           })
-          socket.on('esp:humedad', function (data) {
+          socket.on(topic6, function (data) {
             uno = data.value;
             dos = 100 - data.value;
             humiditySoil.data.datasets.forEach((dataset) => {
@@ -189,7 +193,7 @@
             });
             humiditySoil.update();
           })
-          socket.on('esp:humedad2', function (data) {
+          socket.on(topic2, function (data) {
             uno = data.value;
             dos = 100 - data.value;
             environmentHumedity.data.datasets.forEach((dataset) => {
@@ -197,41 +201,40 @@
             });
             environmentHumedity.update();
           })
-          "humEnv"
-          socket.on('esp:distancia', function (data) {
+          socket.on(topic13, function (data) {
             tankWater1.data.datasets.forEach((dataset) => {
               dataset.data = [data.value];
             });
             tankWater1.update();
           })
-          socket.on('esp:distancia2', function (data) {
+          socket.on(topic14, function (data) {
             tankWater2.data.datasets.forEach((dataset) => {
               dataset.data = [data.value];
             });
             tankWater2.update();
           })
 
-          socket.on('esp:temperatura', function (data) {
+          socket.on(topic7, function (data) {
             var dato = document.getElementById("estadoPricipal");
             dato.innerHTML = data.value
           })
-          socket.on('esp:temperatura', function (data) {
+          socket.on(topic9, function (data) {
             var dato = document.getElementById("totalPricipal");
             dato.innerHTML = data.value
           })
-          socket.on('esp:temperatura', function (data) {
-            var dato = document.getElementById("liquidoPricipal" );
-            dato.innerHTML =data.value
+          socket.on(topic11, function (data) {
+            var dato = document.getElementById("liquidoPricipal");
+            dato.innerHTML = data.value
           })
-          socket.on('esp:temperatura', function (data) {
+          socket.on(topic8, function (data) {
             var dato = document.getElementById("estadoReserva");
             dato.innerHTML = data.value
           })
-          socket.on('esp:temperatura', function (data) {
+          socket.on(topic10, function (data) {
             var dato = document.getElementById("totalReserva");
             dato.innerHTML = data.value
           })
-          socket.on('esp:temperatura', function (data) {
+          socket.on(topic12, function (data) {
             var dato = document.getElementById("liquidoReserva");
             dato.innerHTML = data.value
           })
