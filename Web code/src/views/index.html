@@ -32,7 +32,7 @@
             <div>
               <figure class="minfigure">
                 <p>Información del Tanque</p>
-                <h3>Tanque Pricipal</h3>
+                <h3>Tanque Principal</h3>
                 <div class="column">
                   <div class="row">
                     <p>Volumen Total:&ensp;</p>
@@ -43,7 +43,7 @@
                     <p id="liquidoPricipal"></p>
                   </div>
                   <div class="row">
-                    <p>Estado del tanque:&ensp;</p>
+                    <p>Estado del Tanque:&ensp;</p>
                     <p id="estadoPricipal"></p>
                   </div>
                 </div>
@@ -61,7 +61,7 @@
                     <p id="liquidoReserva"></p>
                   </div>
                   <div class="row">
-                    <p>Estado del tanque:&ensp;</p>
+                    <p>Estado del Tanque:&ensp;</p>
                     <p id="estadoReserva"></p>
                   </div>
                 </div>
@@ -85,14 +85,16 @@
 
           <section class="cols-2">
             <figure>
-              <p>Humedad de ambiente</p>
-              <h3>Porcentaje de Humedad del ambiente</h3>
+              <p>Humedad de Ambiente</p>
+              <h3>Porcentaje de Humedad del Ambiente</h3>
               <canvas id="humEnv"></canvas>
             </figure>
             <figure>
               <p>Humedad de la Tierra</p>
               <h3>Porcentaje de Humedad de Tierra</h3>
-              <canvas id="humSoil"></canvas>
+              <div class="ajustt">
+                <canvas id="humSoil"></canvas>
+              </div>
             </figure>
           </section>
           <section class="cols-1">
@@ -184,15 +186,15 @@
             });
             counters++;
             temperatureGrafic.update();
-          })
-          socket.on(topic6, function (data) {
-            uno = data.value;
-            dos = 100 - data.value;
+          });
+          socket.on(topic2, function (data) {
+            /* uno = data.value;
+            dos = 100 - data.value; */
             humiditySoil.data.datasets.forEach((dataset) => {
-              dataset.data = [uno, dos];
-            });
-            humiditySoil.update();
-          })
+              dataset.needleValue = data.value;
+            }); 
+             humiditySoil.update(); 
+          });
           socket.on(topic2, function (data) {
             uno = data.value;
             dos = 100 - data.value;
@@ -200,44 +202,44 @@
               dataset.data = [uno, dos];
             });
             environmentHumedity.update();
-          })
+          });
           socket.on(topic13, function (data) {
             tankWater1.data.datasets.forEach((dataset) => {
               dataset.data = [data.value];
             });
             tankWater1.update();
-          })
+          });
           socket.on(topic14, function (data) {
             tankWater2.data.datasets.forEach((dataset) => {
               dataset.data = [data.value];
             });
             tankWater2.update();
-          })
+          });
 
           socket.on(topic7, function (data) {
             var dato = document.getElementById("estadoPricipal");
             dato.innerHTML = data.value
-          })
+          });
           socket.on(topic9, function (data) {
             var dato = document.getElementById("totalPricipal");
             dato.innerHTML = data.value
-          })
+          });
           socket.on(topic11, function (data) {
             var dato = document.getElementById("liquidoPricipal");
             dato.innerHTML = data.value
-          })
+          });
           socket.on(topic8, function (data) {
             var dato = document.getElementById("estadoReserva");
             dato.innerHTML = data.value
-          })
+          });
           socket.on(topic10, function (data) {
             var dato = document.getElementById("totalReserva");
             dato.innerHTML = data.value
-          })
+          });
           socket.on(topic12, function (data) {
             var dato = document.getElementById("liquidoReserva");
             dato.innerHTML = data.value
-          })
+          });
 
 
 

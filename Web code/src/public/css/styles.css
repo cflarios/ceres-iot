@@ -219,7 +219,9 @@ body {
   fill: var(--black);
   transition: transform 0.2s;
 }
-
+.row{
+  margin-left: 10px;
+}
 .page-header .admin-menu {
   display: flex;
   flex-direction: column;
@@ -298,19 +300,33 @@ body {
 }
 
  figure { 
-  max-height: 400px;
+  max-height: 500px;
   background-color: var(--page-header-bgColor);
-  padding: 10px 10px 30px 30px;
+  padding: 10px 10px 20px 10px;
   box-shadow: 0 1px 20px 0px rgb(0 0 0 / 10%);
   border-radius: 0.2857rem;
 }
  .minfigure { 
-  max-height: 190px;
+  height: 200px;
   background-color: var(--page-header-bgColor);
-  padding: 10px 10px 30px 30px;
+  padding: 10px 10px 20px;
   box-shadow: 0 1px 20px 0px rgb(0 0 0 / 10%);
   border-radius: 0.2857rem;
 }
+
+ canvas {
+  width: 100%;
+  max-height: 300px;
+}
+.ajustt{
+  max-width: 90%;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-left: 60px;
+  padding-right: 60px;
+  
+}
+
 section {
   margin-bottom: 15px;
 }
@@ -526,10 +542,6 @@ figure p {
   font-size: 0.8em;
 }
 
-canvas {
-  width: 100%;
-  max-height: 300px;
-}
 
 
 /* grid */
@@ -555,9 +567,6 @@ canvas {
   margin: 10px;
 }
 
-
-
-
 .loading {
   position: absolute;
   border: none;
@@ -582,6 +591,7 @@ canvas {
   canvas {
     width: 100%;
   }
+  
   figure{
     max-height: 400px;
     width: 100%;

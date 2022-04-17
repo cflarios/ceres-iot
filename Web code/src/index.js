@@ -1,4 +1,3 @@
-require("./config");
 const app = require("./app");
 require("./database");
 const Task = require("./models/Task");
