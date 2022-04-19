@@ -8,6 +8,6 @@ Este código fue escrito en Visual Studio Code usando la extensión PlatformIO.
    * [Sensor de humedad del suelo](https://www.sparkfun.com/products/13322)
 
 ### Librerías
-   * Librería para el protocolo MQTT [PubSubClient](https://github.com/knolleary/pubsubclient)
-   * Librería para el sensor SHT31 [Adafruit SHT31](https://github.com/adafruit/Adafruit_SHT31)
-   * Librería para la comunicación I2C [Adafruit BusIO](https://github.com/adafruit/Adafruit_BusIO)
+   * [PubSubClient](https://github.com/knolleary/pubsubclient)
+   * [Adafruit SHT31](https://github.com/adafruit/Adafruit_SHT31)
+   * [Adafruit BusIO](https://github.com/adafruit/Adafruit_BusIO)
