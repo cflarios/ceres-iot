@@ -11,3 +11,6 @@ Este código fue escrito en Visual Studio Code usando la extensión PlatformIO.
    * [PubSubClient](https://github.com/knolleary/pubsubclient)
    * [Adafruit SHT31](https://github.com/adafruit/Adafruit_SHT31)
    * [Adafruit BusIO](https://github.com/adafruit/Adafruit_BusIO)
+   * [WiFi](https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi)
+   * [Wire](https://github.com/espressif/arduino-esp32/tree/master/libraries/Wire)
+   * [SPI](https://github.com/espressif/arduino-esp32/tree/master/libraries/SPI)
