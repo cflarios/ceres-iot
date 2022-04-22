@@ -27,7 +27,10 @@
             <figure>
               <p>Nivel de Agua</p>
               <h3>Tanque Principal</h3>
-              <canvas id="cylGauge1"></canvas>
+              <div class="ajustt2">
+                <canvas id="cylGauge1"></canvas>
+              </div>
+              
             </figure>
             <div>
               <figure class="minfigure">
@@ -48,7 +51,7 @@
                   </div>
                 </div>
               </figure>
-              <figure class="minfigure">
+              <figure class="minfigure" style="margin-bottom:0px;">
                 <p>Información del Tanque</p>
                 <h3>Tanque Reserva</h3>
                 <div>
@@ -71,12 +74,19 @@
             <figure>
               <p>Nivel de Agua</p>
               <h3>Tanque Reserva</h3>
-              <canvas id="cylGauge2"></canvas>
+              <div class="ajustt2">
+                <canvas id="cylGauge2"></canvas>
+              </div>
             </figure>
           </section>
 
-          <section class="cols-1">
-            <figure>
+          <section class="cols-0">
+            <figure class="right">
+              <p>Humedad de Ambiente</p>
+              <h3>Porcentaje de Humedad del Ambiente</h3>
+              <canvas id="humEnv"></canvas>
+            </figure>
+            <figure class="left">
               <p>Gráfico lineal</p>
               <h3>Grafico de Temperatura</h3>
               <canvas id="tempGrafic"></canvas>
@@ -87,7 +97,7 @@
             <figure>
               <p>Humedad de Ambiente</p>
               <h3>Porcentaje de Humedad del Ambiente</h3>
-              <canvas id="humEnv"></canvas>
+             <!--  <canvas id="humEnv"></canvas> -->
             </figure>
             <figure>
               <p>Humedad de la Tierra</p>
@@ -156,10 +166,6 @@
 
         </script>
         <script>
-         // const temp = document.getElementById("tempGrafic")
-
-        </script>
-        <script>
           // Tópicos que publica
           const topic1 = "ceres/sensor/ambiente/temperatura";
           const topic2 = "ceres/sensor/ambiente/humedad";
@@ -175,32 +181,34 @@
           const topic14 = "ceres/tanque/auxiliar/porcentaje-liquido";
           
           let counters = 0;
-          let uno = 0;
-          let dos = 0;
-          let tres = 0;
           var socket = io();
           socket.on(topic1, function (data) {
-            temperatureGrafic.data.labels.push(counters);
+            if(temperatureGrafic.data.labels.length>20){
+              temperatureGrafic.data.labels.length=0;
+              temperatureGrafic.data.datasets.forEach((dataset) => {
+              dataset.data.length=0;
+            }); 
+              counters = 0;
+            }else{
+              temperatureGrafic.data.labels.push(counters);
             temperatureGrafic.data.datasets.forEach((dataset) => {
               dataset.data.push(data.value);
             });
             counters++;
+            }
             temperatureGrafic.update();
           });
-          socket.on(topic2, function (data) {
-            /* uno = data.value;
-            dos = 100 - data.value; */
+          socket.on(topic6, function (data) {
+            
             humiditySoil.data.datasets.forEach((dataset) => {
               dataset.needleValue = data.value;
             }); 
              humiditySoil.update(); 
           });
           socket.on(topic2, function (data) {
-            uno = data.value;
-            dos = 100 - data.value;
             environmentHumedity.data.datasets.forEach((dataset) => {
-              dataset.data = [uno, dos];
-            });
+              dataset.needleValue = data.value;
+            }); 
             environmentHumedity.update();
           });
           socket.on(topic13, function (data) {

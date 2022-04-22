@@ -15,20 +15,27 @@ const tankWater1 = new Chart(water1, {
     datasets: [
       {
         label: "Nivel de agua",
-        borderColor: styles.color.alphas[2],
-        backgroundColor: styles.color.solids[1],
+        borderColor: "rgb(0, 255, 255)",
+        backgroundColor: "rgba(0, 255, 255, 0.5)",
         data: [],
         borderWidth: 1,
-        categoryPercentage: 0.77,
+        categoryPercentage: 1,
+        barPercentage: 1,
+        borderRadius: 5,
       },
     ],
   },
   options: {
     maintainAspectRatio: false,
     scaleFontColor: "#fff",
+    plugins:{
+      legend: {
+      display: false,
+    }}
+    ,
     scales: {
       x: {
-        stacked: true,
+        display:false,
       },
       y: {
         suggestedMax: 100,
@@ -43,20 +50,27 @@ const tankWater2 = new Chart(water2, {
     datasets: [
       {
         label: "Nivel de agua",
-        borderColor: styles.color.alphas[2],
-        backgroundColor: styles.color.solids[1],
+        borderColor: "rgb(0, 255, 255)",
+        backgroundColor: "rgba(0, 255, 255, 0.5)",
         data: [],
         borderWidth: 1,
-        categoryPercentage: 0.77,
+        categoryPercentage: 1,
+        barPercentage: 1,
+        borderRadius: 5,
       },
     ],
   },
   options: {
     maintainAspectRatio: false,
     scaleFontColor: "#fff",
+    plugins:{
+      legend: {
+      display: false,
+    }}
+    ,
     scales: {
       x: {
-        stacked: true,
+        display:false,
       },
       y: {
         suggestedMax: 100,
@@ -65,103 +79,169 @@ const tankWater2 = new Chart(water2, {
   },
 });
 
-/* function printCharts(coasters) {
 
- // document.body.classList.add('running')
-  humiditySoil(coasters, 'humSoil')
 
-} */
-const data = {
-  labels: ["mon", "tue", "wed"],
-  datasets: [
-    {
-      data: [20, 30, 50],
-      label: "humedad %",
-      backgroundColor: ["red", "yellow","green"],
-      borderColor: '#1d2636',
-      borderWidth: 2,
-      needleValue: 0,
-      circumference: 180,
-      rotation: 270,
-      cutout: "90%",
-      borderRadius: 2,
-    },
-  ],
-};
-const gaugeNeedle = {
-  id: 'gaugeNeedle',
-  afterDatasetDraw(chart, args, options) {
-    const {
-      ctx,
-      config,
-      chartArea: { top, bottom, left, right, width, height },
-    } = chart;
-    ctx.save();
-    //console.log(ctx);
-    const needleValue = data.datasets[0].needleValue;
-    const dataTotal = data.datasets[0].data.reduce((a, b) => a + b, 0);
-    const angle = Math.PI + (1 / dataTotal) * needleValue * Math.PI;
-
-    const cx = width / 2;
-    const cy = chart._metasets[0].data[0].y;
-
-    // needle
-    ctx.translate(cx, cy);
-    ctx.rotate(angle);
-    ctx.beginPath();
-    ctx.moveTo(0, -3);
-    ctx.lineTo(height - 103, 0);
-    ctx.lineTo(0, 3);
-    ctx.fillStyle =  "#00d6b4";
-    ctx.fill();
-
-    // needle dot
-    ctx.translate(-cx, -cy);
-    ctx.beginPath();
-    ctx.arc(cx, cy, 5, 0, 10);
-    ctx.fill();
-    ctx.restore();
-
-    //needle number
-    ctx.font = "30px Helvetica";
-    ctx.fillStyle =  "#00d6b4";
-    ctx.fillText(needleValue + "%", cx, cy + 40);
-    ctx.textAlign = "center";
-    ctx.restore();
-  },
-};
-
-const config = {
+const humiditySoil = new Chart(soil, {
   type: "doughnut",
-  data,
-  options: {
-    plugins: {
-      legend: {
-        display: false,
+    data:{
+      labels: ["mon", "tue", "wed"],
+      datasets: [
+        {
+          data: [20, 30, 50],
+          label: "humedad %",
+          backgroundColor: ["red", "yellow", "green"],
+          borderColor: "#1d2636",
+          borderWidth: 2,
+          needleValue: 0,
+          circumference: 180,
+          rotation: 270,
+          cutout: "90%",
+          borderRadius: 2,
+        },
+      ],
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          yAlign: "bottom",
+          displayColors: false,
+          callbacks: {
+            label: function (tooltipItem, data, value) {
+              const tracker = tooltipItem.dataset.needleValue;
+              return `Tracker Score: ${tracker} %`;
+            },
+          },
+        },
       },
-      tooltip: {
-        yAlign: "bottom",
-        displayColors: false,
-        callbacks: {
-          label: function (tooltipItem, data, value) {
-            const tracker = tooltipItem.dataset.needleValue;
-            return `Tracker Score: ${tracker} %`;
-          }
-        }
-      }
-    }
-  },
-  plugins: [gaugeNeedle]
-};
-
-const humiditySoil = new Chart(soil, config);
-
-/*
-const humiditySoil = new Chart(document.getElementById("humSoil"), config); */
-
-//gaugeNeedle block
+    },
+    plugins: [{
+      afterDatasetDraw(chart, args, options) {
+        const {
+          ctx,
+          config,
+          chartArea: { top, bottom, left, right, width, height },
+        } = chart;
+        ctx.save();
+        //console.log(ctx);
+        const needleValue = humiditySoil.data.datasets[0].needleValue;
+        const dataTotal = humiditySoil.data.datasets[0].data.reduce((a, b) => a + b, 0);
+        const angle = Math.PI + (1 / dataTotal) * needleValue * Math.PI;
+    
+        const cx = width / 2;
+        const cy = chart._metasets[0].data[0].y;
+    
+        // needle
+        ctx.translate(cx, cy);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        ctx.moveTo(0, -2);
+        ctx.lineTo(width/2, 0);
+        ctx.lineTo(0, 2);
+        ctx.fillStyle = "#00d6b4";
+        ctx.fill();
+    
+        // needle dot
+        ctx.translate(-cx, -cy);
+        ctx.beginPath();
+        ctx.arc(cx, cy, 5, 0, 10);
+        ctx.fill();
+        ctx.restore();
+    
+        //needle number
+        ctx.font = "20px Helvetica";
+        ctx.fillStyle = "#00d6b4";
+        ctx.fillText(needleValue + "%", cx, cy + 25);
+        ctx.textAlign = "center";
+        ctx.restore();
+      },
+    }]
+}
+);
 
 const environmentHumedity = new Chart(environment, {
+    type: "doughnut",
+    data:{
+      labels: ["mon", "tue", "wed"],
+      datasets: [
+        {
+          data: [20, 30, 50],
+          label: "humedad %",
+          backgroundColor: ["red", "yellow", "green"],
+          borderColor: "#1d2636",
+          borderWidth: 2,
+          needleValue: 0,
+          circumference: 180,
+          rotation: 270,
+          cutout: "90%",
+          borderRadius: 2,
+        },
+      ],
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          yAlign: "bottom",
+          displayColors: false,
+          callbacks: {
+            label: function (tooltipItem, data, value) {
+              const tracker = tooltipItem.dataset.needleValue;
+              return `Tracker Score: ${tracker} %`;
+            },
+          },
+        },
+      },
+    },
+    plugins: [{
+      /* id: "gaugeNeedle1", */
+      afterDatasetDraw(chart, args, options) {
+        const {
+          ctx,
+          config,
+          chartArea: { top, bottom, left, right, width, height },
+        } = chart;
+        ctx.save();
+        //console.log(ctx);
+        const needleValue = environmentHumedity.data.datasets[0].needleValue;
+        const dataTotal = environmentHumedity.data.datasets[0].data.reduce((a, b) => a + b, 0);
+        const angle = Math.PI + (1 / dataTotal) * needleValue * Math.PI;
+    
+        const cx = width / 2;
+        const cy = chart._metasets[0].data[0].y;
+    
+        // needle
+        ctx.translate(cx, cy);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        ctx.moveTo(0, -2);
+        ctx.lineTo(width/2, 0);
+        ctx.lineTo(0, 2);
+        ctx.fillStyle = "#00d6b4";
+        ctx.fill();
+    
+        // needle dot
+        ctx.translate(-cx, -cy);
+        ctx.beginPath();
+        ctx.arc(cx, cy, 5, 0, 10);
+        ctx.fill();
+        ctx.restore();
+    
+        //needle number
+        ctx.font = "20px Helvetica";
+        ctx.fillStyle = "#00d6b4";
+        ctx.fillText(needleValue + "%", cx, cy + 25);
+        ctx.textAlign = "center";
+        ctx.restore();
+      },
+    }]
+});
+
+/* const environmentHumedity = new Chart(environment, {
   type: "doughnut",
   data: {
     labels: [],
@@ -185,7 +265,7 @@ const environmentHumedity = new Chart(environment, {
     rotation: -90,
     cutout: 90,
   },
-});
+}); */
 const temperatureGrafic = new Chart(temp, {
   type: "line",
   data: {
@@ -217,8 +297,10 @@ const temperatureGrafic = new Chart(temp, {
     ],
   },
   options: {
-    legend: {
-      display: true,
+    plugins: {
+      legend: {
+        display: false,
+      }
     },
     maintainAspectRatio: false,
     scaleFontColor: "#fff",
