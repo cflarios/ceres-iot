@@ -35,7 +35,7 @@ const char *topic11 = "ceres/tanque/principal/volumen-liquido";    // La cantida
 const char *topic12 = "ceres/tanque/auxiliar/volumen-liquido";     // La cantidad de liquido faltante en el interior del tanque auxiliar es: (...) litros
 const char *topic13 = "ceres/tanque/principal/porcentaje-liquido"; // El porcentaje que ocupa el liquido en el tanque principal es: (...) %
 const char *topic14 = "ceres/tanque/auxiliar/porcentaje-liquido";  // El porcentaje que ocupa el liquido en el tanque auxiliar es: (...) %
-
+const char *topic15 = "ceres/sensor/led";
 // Tópicos a los que se suscribe
 const char *topic4 = "ceres/led";
 const char *topic5 = "ceres/slider";
@@ -52,6 +52,8 @@ const int Trigger_two = 33; // Sensor ultrasónico tanque auxiliar
 const int Echo_two = 32;
 const int sensor_humedad = 33;
 int mp;
+int pinLDR = 1;
+int valorLDR = 0; // Variable donde se almacena el valor del LDR
 
 // Slider (PWM)
 const int Pwm_pin = 13;
@@ -169,6 +171,9 @@ void setup()
 
   // Led del botón (dashboard)
   pinMode(ledPin, OUTPUT);
+
+  // Fotoresistencia
+  pinMode(pinLDR, OUTPUT);
 
   // Bombas
   pinMode(Bomba_Entrada, OUTPUT);
@@ -291,6 +296,23 @@ void loop()
     // Mapeo de la lectura análoga
     mp = analogRead(sensor_humedad);
     mp = map(mp, 4095, 0, 0, 100);
+
+    // Mapeo de la lectura análoga
+    valorLDR = analogRead(pinLDR);
+    valorLDR = map(valorLDR, 768, 0, 0, 100);
+
+    if (valorLDR > 512)
+    {
+      digitalWrite(ledPin, HIGH);
+      Serial.print("El led se ha encendido");
+      client.publish(topic15, "Encendido");
+    }
+
+    if (valorLDR < 512)
+    {
+      digitalWrite(ledPin, LOW);
+      client.publish(topic15, "Apagado");
+    }
 
     // Convertir la variable mp de int a array char
     char mpString[8];
