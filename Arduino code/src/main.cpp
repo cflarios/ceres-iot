@@ -22,30 +22,29 @@ const char *mqtt_password = "readwrite";
 const int mqtt_port = 1884;
 
 // Tópicos que publica
-const char *topic1 = "esp32/temperatura";
-const char *topic2 = "esp32/humedad";
-const char *topic3 = "esp32/distancia";
-const char *topic6 = "esp32/humedadTierra";
-
+const char *topic1 = "ceres/sensor/ambiente/temperatura";
+const char *topic2 = "ceres/sensor/ambiente/humedad";
+const char *topic6 = "ceres/sensor/planta/humedad-tierra";
+const char *topic15 = "ceres/sensor/led";
 // Tópicos a los que se suscribe
-const char *topic4 = "esp32/LED";
-const char *topic5 = "esp32/PWM";
+const char *topic4 = "ceres/led";
+const char *topic5 = "ceres/slider";
 
 // Variables
 long lastMsg = 0;
 int value = 0;
 const int ledPin = 2;
-float t = 0;
-float h = 0;
-const int Trigger = 5;
-const int Echo = 18;
+float temp = 0;
+float hum = 0;
 const int sensor_humedad = 33;
 int mp;
+int pinLDR = 1;
+int valorLDR = 0; // Variable donde se almacena el valor del LDR
 
 // Slider (PWM)
-const int pwmPin = 13;
+const int Pwm_pin = 13;
 const int freq = 5000;
-const int ledChannel = 0;
+const int led_channel = 0;
 const int resolution = 8;
 String slider_value = "0";
 
@@ -80,7 +79,7 @@ void callback(char *topic, byte *message, unsigned int length)
   if (String(topic) == topic5)
   {
     slider_value = messageTemp;
-    ledcWrite(ledChannel, slider_value.toInt());
+    ledcWrite(led_channel, slider_value.toInt());
   }
 
   Serial.println();
@@ -113,18 +112,24 @@ void setup_wifi()
 void setup()
 {
   Serial.begin(9600);
-  pinMode(Trigger, OUTPUT);
-  pinMode(Echo, INPUT);
+
+  // Led del botón (dashboard)
   pinMode(ledPin, OUTPUT);
 
-  ledcSetup(ledChannel, freq, resolution);
-  ledcAttachPin(pwmPin, ledChannel);
-  ledcWrite(ledChannel, slider_value.toInt());
+  // Fotoresistencia
+  pinMode(pinLDR, OUTPUT);
 
+  // Slider (pwm)
+  ledcSetup(led_channel, freq, resolution);
+  ledcAttachPin(Pwm_pin, led_channel);
+  ledcWrite(led_channel, slider_value.toInt());
+
+  // Llamamos los otros voids
   setup_wifi();
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
 
+  // Verificamos si el sensor SHT31 está bien conectado
   if (!sht31.begin(0x44))
   {
     Serial.println("No se pudo encontrar el SHT31");
@@ -145,8 +150,8 @@ void reconnect()
     if (client.connect(client_id.c_str(), mqtt_username, mqtt_password))
     {
       Serial.println("¡conectado!");
-      client.subscribe(topic4);
-      client.subscribe(topic5);
+      client.subscribe(topic4); // Subscripción al tópico del led
+      client.subscribe(topic5); // Subscripción al tópico del slider (PWM)
     }
     else
     {
@@ -161,9 +166,6 @@ void reconnect()
 
 void loop()
 {
-  long time;
-  float distance;
-
   if (!client.connected())
   {
     reconnect();
@@ -174,21 +176,22 @@ void loop()
   if (now - lastMsg > 5000)
   {
     lastMsg = now;
+    callback; // Esto es importante para realizar procesos en paralelo con la interacción en la Dashboard
 
-    t = sht31.readTemperature();
+    temp = sht31.readTemperature();
     // Convertir la variable t de float a array char
     char tempString[8];
-    dtostrf(t, 1, 2, tempString);
+    dtostrf(temp, 1, 2, tempString);
     Serial.print("Temperatura: ");
     Serial.print(tempString);
     Serial.print(" °C");
     Serial.println("");
     client.publish(topic1, tempString);
 
-    h = sht31.readHumidity();
+    hum = sht31.readHumidity();
     // Convertir la variable h de float a array char
     char humString[8];
-    dtostrf(h, 1, 2, humString);
+    dtostrf(hum, 1, 2, humString);
     Serial.print("Humedad: ");
     Serial.print(humString);
     Serial.print(" %");
@@ -196,27 +199,26 @@ void loop()
     delay(1000);
     client.publish(topic2, humString);
 
-    digitalWrite(Trigger, HIGH);
-    delayMicroseconds(10); // Enviamos un pulso de 10us
-    digitalWrite(Trigger, LOW);
-
-    // Obtenemos el ancho del pulso
-    time = pulseIn(Echo, HIGH);
-    distance = time * 0.034 / 2;
-
-    // Convertir la variable distance de float a array char
-    char distanceString[8];
-    dtostrf(distance, 1, 2, distanceString);
-    Serial.print("Distancia: ");
-    Serial.print(distanceString);
-    Serial.print(" cm");
-    Serial.println("");
-    delay(1000);
-    client.publish(topic3, distanceString);
-
     // Mapeo de la lectura análoga
     mp = analogRead(sensor_humedad);
     mp = map(mp, 4095, 0, 0, 100);
+
+    // Mapeo de la lectura análoga
+    valorLDR = analogRead(pinLDR);
+    valorLDR = map(valorLDR, 768, 0, 0, 100);
+
+    if (valorLDR > 512)
+    {
+      digitalWrite(ledPin, HIGH);
+      Serial.print("El led se ha encendido");
+      client.publish(topic15, "Encendido");
+    }
+
+    if (valorLDR < 512)
+    {
+      digitalWrite(ledPin, LOW);
+      client.publish(topic15, "Apagado");
+    }
 
     // Convertir la variable mp de int a array char
     char mpString[8];
