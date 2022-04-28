@@ -24,8 +24,9 @@ const int mqtt_port = 1884;
 // Tópicos que publica
 const char *topic1 = "ceres/sensor/ambiente/temperatura";
 const char *topic2 = "ceres/sensor/ambiente/humedad";
-const char *topic6 = "ceres/sensor/planta/humedad-tierra";
-const char *topic15 = "ceres/sensor/led";
+const char *topic3 = "ceres/sensor/planta/humedad-tierra";
+const char *topic6 = "ceres/sensor/fotoresistencia/estado";
+const char *topic7 = "ceres/sensor/fotoresistencia";
 // Tópicos a los que se suscribe
 const char *topic4 = "ceres/led";
 const char *topic5 = "ceres/slider";
@@ -38,7 +39,7 @@ float temp = 0;
 float hum = 0;
 const int sensor_humedad = 33;
 int mp;
-int pinLDR = 1;
+int pinLDR = 34;
 int valorLDR = 0; // Variable donde se almacena el valor del LDR
 
 // Slider (PWM)
@@ -173,7 +174,7 @@ void loop()
   client.loop();
 
   long now = millis();
-  if (now - lastMsg > 5000)
+  if (now - lastMsg > 10000)
   {
     lastMsg = now;
     callback; // Esto es importante para realizar procesos en paralelo con la interacción en la Dashboard
@@ -205,20 +206,33 @@ void loop()
 
     // Mapeo de la lectura análoga
     valorLDR = analogRead(pinLDR);
-    valorLDR = map(valorLDR, 768, 0, 0, 100);
+    valorLDR = map(valorLDR, 4095, 0, 0, 100);
 
-    if (valorLDR > 512)
+    if (valorLDR <= 20)
     {
       digitalWrite(ledPin, HIGH);
       Serial.print("El led se ha encendido");
-      client.publish(topic15, "Encendido");
+      Serial.println("");
+      client.publish(topic6, "Encendido");
     }
 
-    if (valorLDR < 512)
+    if (valorLDR >= 21)
     {
       digitalWrite(ledPin, LOW);
-      client.publish(topic15, "Apagado");
+      Serial.print("El led se ha apagado");
+      Serial.println("");
+      client.publish(topic6, "Apagado");
     }
+
+    // Convertir la variable mp de int a array char
+    char valorLDR_String[8];
+    dtostrf(valorLDR, 1, 2, valorLDR_String);
+    Serial.print("Porcentaje de luz: ");
+    Serial.print(valorLDR_String);
+    Serial.print(" %");
+    Serial.println("");
+    delay(1000);
+    client.publish(topic7, valorLDR_String);
 
     // Convertir la variable mp de int a array char
     char mpString[8];
@@ -228,6 +242,6 @@ void loop()
     Serial.print(" %");
     Serial.println("");
     delay(1000);
-    client.publish(topic6, mpString);
+    client.publish(topic3, mpString);
   }
 }
