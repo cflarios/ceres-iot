@@ -5,7 +5,6 @@
 #include <PubSubClient.h>
 #include <Wire.h>
 
-
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -56,7 +55,7 @@ const int led_full_one = 14;
 // Pin indicadores Tanque Auxiliar
 const int led_low_two = 27;
 const int led_middle_two = 23;
-const int led_full_two = 25;
+const int led_full_two = 2;
 
 // Datos de la bomba principal
 float vc_one;
@@ -94,7 +93,7 @@ void callback(char *topic, byte *message, unsigned int length)
   {
     if (messageTemp > "20")
     {
-      
+
       digitalWrite(Bomba_Salida, HIGH);
       Serial.print("La bomba de salida está activada...");
     }
@@ -260,7 +259,8 @@ void loop()
     // Este condicional es cuando el tanque está casi vacío (nivel bajo)
     if ((distance_one >= 18) && (distance_one <= 20))
     {
-      Serial.println("El tanque principal está en nivel bajo");
+      Serial.print("El tanque principal está en nivel bajo");
+      Serial.println("");
       digitalWrite(led_low_one, HIGH);
       digitalWrite(led_middle_one, LOW);
       digitalWrite(led_full_one, LOW);
@@ -274,6 +274,7 @@ void loop()
     if ((distance_one >= 11) && (distance_one <= 13))
     {
       Serial.print("El tanque principal está en nivel medio");
+      Serial.println("");
       digitalWrite(led_low_one, LOW);
       digitalWrite(led_middle_one, HIGH);
       digitalWrite(led_full_one, LOW);
@@ -287,6 +288,7 @@ void loop()
     if ((distance_one >= 5) && (distance_one <= 7))
     {
       Serial.print("El tanque principal está en nivel alto");
+      Serial.println("");
       digitalWrite(led_low_one, LOW);
       digitalWrite(led_middle_one, LOW);
       digitalWrite(led_full_one, HIGH);
@@ -296,6 +298,7 @@ void loop()
         digitalWrite(Bomba_Entrada, LOW);
         digitalWrite(Bomba_Salida, HIGH);
         Serial.print("La bomba de salida está activada...");
+        Serial.println("");
       }
     }
     //----------------------- Estado del Tanque Principal ----------------------
@@ -352,6 +355,7 @@ void loop()
       digitalWrite(led_middle_two, LOW);
       digitalWrite(led_full_two, LOW);
       Serial.print("El tanque auxiliar está casi vacío, por favor llenar.");
+      Serial.println("");
     }
     // Este condicional es cuando el tanque está en nivel medio
     if ((distance_two >= 11) && (distance_two <= 13))
@@ -360,11 +364,14 @@ void loop()
       digitalWrite(led_middle_two, HIGH);
       digitalWrite(led_full_two, LOW);
       Serial.print("El tanque auxiliar está en nivel medio");
+      Serial.println("");
+
       // Este condicional es para activar la bomba de entrada en caso de que el tanque principal esté en nivel medio o inferior
       if (distance_one < 13)
       {
         digitalWrite(Bomba_Entrada, HIGH);
         Serial.print("Entregando agua al tanque principal");
+        Serial.println("");
       }
     }
     // Este condicional es cuando el tanque está casi lleno (nivel alto)
@@ -374,11 +381,14 @@ void loop()
       digitalWrite(led_middle_two, LOW);
       digitalWrite(led_full_two, HIGH);
       Serial.print("El tanque auxiliar está en nivel alto");
+      Serial.println("");
+
       // Este condicional es para activar la bomba de entrada en caso de que el tanque principal esté en nivel medio o inferior
       if (distance_one < 13)
       {
         digitalWrite(Bomba_Entrada, HIGH);
         Serial.print("Entregando agua al tanque principal");
+        Serial.println("");
       }
     }
 
