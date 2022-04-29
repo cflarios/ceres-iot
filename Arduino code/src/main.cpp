@@ -12,14 +12,14 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 
 // Credenciales de tu red Wi-Fi
-const char *ssid = "YOUR_SSID";
-const char *password = "YOUR_PASSWORD";
+const char *ssid = "Redmi";
+const char *password = "Redmi2020";
 
 // Credenciales de tu servidor MQTT
 const char *mqtt_server = "test.mosquitto.org";
 const char *mqtt_username = "rw";
 const char *mqtt_password = "readwrite";
-const int mqtt_port = 1884;
+const int mqtt_port = 1883;
 
 // Tópicos que publica
 const char *topic1 = "ceres/sensor/ambiente/temperatura";
@@ -66,15 +66,15 @@ void callback(char *topic, byte *message, unsigned int length)
   if (String(topic) == topic4)
   {
     Serial.print("Cambiando la salida a:");
-    if (messageTemp == "on")
+    if (messageTemp == "255")
     {
       Serial.println("Led encendido");
-      digitalWrite(ledPin, HIGH);
+      digitalWrite(Pwm_pin, LOW);
     }
-    else if (messageTemp == "off")
+    else if (messageTemp == "0")
     {
       Serial.println("Led apagado");
-      digitalWrite(ledPin, LOW);
+      digitalWrite(Pwm_pin, HIGH);
     }
   }
   if (String(topic) == topic5)
@@ -116,6 +116,7 @@ void setup()
 
   // Led del botón (dashboard)
   pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, HIGH);
 
   // Fotoresistencia
   pinMode(pinLDR, OUTPUT);
@@ -210,7 +211,7 @@ void loop()
 
     if (valorLDR <= 20)
     {
-      digitalWrite(ledPin, HIGH);
+      digitalWrite(ledPin, LOW);
       Serial.print("El led se ha encendido");
       Serial.println("");
       client.publish(topic6, "Encendido");
@@ -218,7 +219,7 @@ void loop()
 
     if (valorLDR >= 21)
     {
-      digitalWrite(ledPin, LOW);
+      digitalWrite(ledPin, HIGH);
       Serial.print("El led se ha apagado");
       Serial.println("");
       client.publish(topic6, "Apagado");
