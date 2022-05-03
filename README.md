@@ -18,6 +18,12 @@ Es un sistema económico de monitoreo de plantas y agricultura en general, que p
 ### Lenguajes
   * C++
   * HTML, CSS & Javascript
+  
+## Tutorial
+Toda la información y documentación la puedes encontrar en nuestra [wiki.](https://github.com/Sirius-py/Ceres_IoT/wiki)
+
+## Feedback
+Si tienes un bug o algún tipo de problema, por favor déjanos un comentario en la sección de [issues](https://github.com/Sirius-py/Ceres_IoT/issues) y no dudaremos en responder. Si por otro lado, deseas dar ideas para mejorar el proyecto, por favor contactanos en nuestra [página web.](https://app-ceres.herokuapp.com/)
 
 ## Autores
   * [Chris Larios](https://github.com/Sirius-py) (Lider de Electrónica)
