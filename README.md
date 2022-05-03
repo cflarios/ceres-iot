@@ -18,3 +18,9 @@ Es un sistema económico de monitoreo de plantas y agricultura en general, que p
 ### Lenguajes
   * C++
   * HTML, CSS & Javascript
+
+## Autores
+  * [Chris Larios](https://github.com/Sirius-py) (Lider de Electrónica)
+  * [Juan J. Morales](https://github.com/JuanMz444) (Diseño circuital)
+  * [Julián Vivas](https://github.com/JulCode) (Frontend & Backend)
+  
