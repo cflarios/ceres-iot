@@ -1,4 +1,4 @@
-# <p align="center"> Ceres_IoT </p>
+# <p align="center"> Ceres IoT </p>
 <p align="center"> <img src="https://github.com/Sirius-py/Ceres_IoT/blob/Master/Imagenes/Logo_Ceres_null.png" title="Ceres IoT" alt="Ceres IoT" width="380" height="380"/>&nbsp;</p>
 
 ## ¿Qué es Ceres IoT?
@@ -23,7 +23,7 @@ Es un sistema económico de monitoreo de plantas y agricultura en general, que p
 Toda la información y documentación la puedes encontrar en nuestra [wiki.](https://github.com/Sirius-py/Ceres_IoT/wiki)
 
 ## Feedback
-Si tienes un bug o algún tipo de problema, por favor déjanos un comentario en la sección de [issues](https://github.com/Sirius-py/Ceres_IoT/issues) y no dudaremos en responder. Si por otro lado, deseas dar ideas para mejorar el proyecto, por favor contactanos en nuestra [página web.](https://app-ceres.herokuapp.com/)
+Si tienes un bug o algún tipo de problema, por favor déjanos un comentario en la sección de [problemas](https://github.com/Sirius-py/Ceres_IoT/issues) y no dudaremos en responder. Si por otro lado, deseas dar ideas para mejorar el proyecto, por favor contactanos en nuestra [página web](https://app-ceres.herokuapp.com/) o deja un comentario en la sección de [discusiones.](https://github.com/Sirius-py/Ceres_IoT/discussions)
 
 ## Autores
   * [Chris Larios](https://github.com/Sirius-py) (Lider de Electrónica)
