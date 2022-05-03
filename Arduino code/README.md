@@ -6,6 +6,7 @@ Este código fue escrito en Visual Studio Code usando la extensión PlatformIO.
    * [Sensor SHT31](https://www.adafruit.com/product/2857)
    * [Sensor ultrasónico HC-SR04](https://www.sparkfun.com/products/15569)
    * [Sensor de humedad del suelo](https://www.sparkfun.com/products/13322)
+   * [Fotoresistencia](https://www.sparkfun.com/products/9088)
 
 ### Librerías
    * [PubSubClient](https://github.com/knolleary/pubsubclient)
