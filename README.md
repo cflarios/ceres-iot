@@ -29,4 +29,7 @@ Si tienes un bug o algún tipo de problema, por favor déjanos un comentario en 
   * [Chris Larios](https://github.com/Sirius-py) (Lider de Electrónica)
   * [Juan J. Morales](https://github.com/JuanMz444) (Diseño circuital)
   * [Julián Vivas](https://github.com/JulCode) (Frontend & Backend)
+ 
+## Logo & Ilustraciones
+  * [Alex Rentería](https://github.com/CodeSpacx)
   
