@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.js"></script>
+
+  <link rel="stylesheet" href="css/styles.css"/>
+  <meta charset="utf-8" />
+  <%- include ("partials/head.html") %>
+
+</head>
+
+<body class="running">
+  <%- include ("partials/svg.html") %>
+    <%- include ("partials/sidebar.html") %>
+
+      <section class="page-content">
+
+        <main>
+          <!-- <h1>Monitoreo Ceres_IoT</h1>
+          <p>Visualización de estadísticas</p>
+          <hr />
+          <h2 class="loading">Esperando respuesta de la API...</h2>  -->
+          <section class="cols-3">
+            <figure>
+              <p>Nivel de Agua</p>
+              <h3>Tanque Principal</h3>
+              <div class="ajustt2">
+                <canvas id="cylGauge1"></canvas>
+              </div>
+
+            </figure>
+            <div>
+              <figure class="minfigure">
+                <p>Información del Tanque</p>
+                <h3>Tanque Principal</h3>
+                <div class="column">
+                  <div class="row">
+                    <p>Volumen Total:&ensp;</p>
+                    <p id="totalPricipal"></p>
+                  </div>
+                  <div class="row">
+                    <p>Liquido Faltante:&ensp;</p>
+                    <p id="liquidoPricipal"></p>
+                  </div>
+                  <div class="row">
+                    <p>Estado del Tanque:&ensp;</p>
+                    <p id="estadoPricipal"></p>
+                  </div>
+                </div>
+              </figure>
+              <figure class="minfigure" style="margin-bottom:0px;">
+                <p>Información del Tanque</p>
+                <h3>Tanque Reserva</h3>
+                <div>
+                  <div class="row">
+                    <p>Volumen Total:&ensp;</p>
+                    <p id="totalReserva"></p>
+                  </div>
+                  <div class="row">
+                    <p>Liquido Faltante:&ensp;</p>
+                    <p id="liquidoReserva"></p>
+                  </div>
+                  <div class="row">
+                    <p>Estado del Tanque:&ensp;</p>
+                    <p id="estadoReserva"></p>
+                  </div>
+                </div>
+              </figure>
+            </div>
+
+            <figure>
+              <p>Nivel de Agua</p>
+              <h3>Tanque Reserva</h3>
+              <div class="ajustt2">
+                <canvas id="cylGauge2"></canvas>
+              </div>
+            </figure>
+          </section>
+
+          <section class="cols-0">
+            <figure class="right">
+              <p>Humedad de Ambiente</p>
+              <h3>Porcentaje de Humedad del Ambiente</h3>
+              <canvas id="humEnv"></canvas>
+            </figure>
+            <figure class="left">
+              <p>Gráfico lineal</p>
+              <h3>Grafico de Temperatura</h3>
+              <canvas id="tempGrafic"></canvas>
+            </figure>
+          </section>
+          <section class="cols-0">
+            <figure class="left">
+               <p>Fotorresistencia</p>
+              <h3>Porcentaje de luz en la planta</h3>
+              <div class="ajustt">
+                <canvas id="luzFot"></canvas>
+              </div>
+             <!-- <div style="flex-direction: row;">
+                <div class="ajustt">
+                  <canvas id="luzFot"></canvas>
+                </div>
+                <div class="row">
+                    <p>Volumen Total:&ensp;</p>
+                    <p id="totalPricipal"></p>
+                  </div>
+              </div> -->
+            </figure>
+            <figure class="right">
+              <p>Humedad de la Tierra</p>
+              <h3>Porcentaje de Humedad de Tierra</h3>
+              <canvas id="humSoil"></canvas>
+            </figure>
+          </section>
+
+          <!-- <section class="cols-2">
+            <figure>
+              <p>Humedad de Ambiente</p>
+              <h3>Porcentaje de Humedad del Ambiente</h3>
+              <canvas id="humEnv"></canvas> 
+            </figure>
+            <figure>
+              <p>Humedad de la Tierra</p>
+              <h3>Porcentaje de Humedad de Tierra</h3>
+              <div class="ajustt">
+                <canvas id="humSoil"></canvas>
+              </div>
+            </figure>
+          </section> -->
+          <section class="cols-1">
+            <figure>
+              <p>Panel de Control</p>
+              <h3>Control de Llenado</h3>
+
+              <div class="inputDiv">
+                <label for="customRange1" class="form-label">Slider de PWM</label>
+                <div class="etiqueta"></div>
+                <input type="range" class="form-range" id="input3" value="0" min="0" max="255" autocomplete="off">
+              </div>
+              <div class="inputDiv">
+                <label for="customRange1" class="form-label">LED</label>
+                <label class="switch2">
+                  <input type="checkbox" id="myCheck" onclick="myFunction()">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+
+            </figure>
+          </section>
+          </div>
+
+        </main>
+      </section>
+      <%- include ('partials/footer.html') %>
+        <script src="js/socket.js"></script>
+        <script src="js/paint.js"></script>
+</body>
+
+</html>

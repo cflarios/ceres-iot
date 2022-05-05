@@ -3,258 +3,365 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.js"></script>
-  <meta charset="utf-8" />
-  <%- include ("partials/head.html") %>
-    <title>
-      <%= title %>
-    </title>
+  <!-- displays site properly based on user's device -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="css/stylesLP.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+    integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>
+    <%= title %>
+  </title>
 </head>
 
-<body class="running">
-  <%- include ("partials/svg.html") %>
-    <%- include ("partials/sidebar.html") %>
+<body>
 
-      <section class="page-content">
-        <main>
-          <!-- <h1>Monitoreo de Esp32/Ceres_IoT</h1>
-          <p>Visualización de estadísticas</p>
-          <hr />
-          <h2 class="loading">Esperando respuesta de la API...</h2> -->
-          <section class="cols-3">
-            <figure>
-              <p>Nivel de Agua</p>
-              <h3>Tanque Principal</h3>
-              <div class="ajustt2">
-                <canvas id="cylGauge1"></canvas>
-              </div>
-              
-            </figure>
-            <div>
-              <figure class="minfigure">
-                <p>Información del Tanque</p>
-                <h3>Tanque Principal</h3>
-                <div class="column">
-                  <div class="row">
-                    <p>Volumen Total:&ensp;</p>
-                    <p id="totalPricipal"></p>
-                  </div>
-                  <div class="row">
-                    <p>Liquido Faltante:&ensp;</p>
-                    <p id="liquidoPricipal"></p>
-                  </div>
-                  <div class="row">
-                    <p>Estado del Tanque:&ensp;</p>
-                    <p id="estadoPricipal"></p>
-                  </div>
-                </div>
-              </figure>
-              <figure class="minfigure" style="margin-bottom:0px;">
-                <p>Información del Tanque</p>
-                <h3>Tanque Reserva</h3>
-                <div>
-                  <div class="row">
-                    <p>Volumen Total:&ensp;</p>
-                    <p id="totalReserva"></p>
-                  </div>
-                  <div class="row">
-                    <p>Liquido Faltante:&ensp;</p>
-                    <p id="liquidoReserva"></p>
-                  </div>
-                  <div class="row">
-                    <p>Estado del Tanque:&ensp;</p>
-                    <p id="estadoReserva"></p>
-                  </div>
-                </div>
-              </figure>
-            </div>
+  <header class="hero">
+    <div class="hero__wave"></div>
+    <nav>
+      <div class="cont nav_container">
+        <a href="index.html">
+          <h4>CERES</h4>
+        </a>
+        <ul class="nav_menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="courses.html">Courses</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
+        <button id="close-menu-btn"><i class="uil uil-multiply"></i></ button>
+      </div>
+    </nav>
+    <section class="productive container">
+      <div class="hero__texts">
+        <h1 class="heros__title">Ceres_IoT</h1>
+        <div class="hero__texts">
+          <p class="hero__paragraph"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis voluptatum
+            voluptates esse aspernatur tenetur aut eos distinctio nostrum fugiat molestias beatae labore ducimus nihil
+            repudiandae quae numquam ipsa, dolore officiis.</p>
 
-            <figure>
-              <p>Nivel de Agua</p>
-              <h3>Tanque Reserva</h3>
-              <div class="ajustt2">
-                <canvas id="cylGauge2"></canvas>
-              </div>
-            </figure>
-          </section>
+          <p class="hero__paragraph">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium quisquam
+            fugiat ipsam eum assumenda saepe aut deleniti quos distinctio
+          </p>
+          <a href="/RealTimeDashboard" class="hero__cta">
+            Get Started
+          </a>
 
-          <section class="cols-0">
-            <figure class="right">
-              <p>Humedad de Ambiente</p>
-              <h3>Porcentaje de Humedad del Ambiente</h3>
-              <canvas id="humEnv"></canvas>
-            </figure>
-            <figure class="left">
-              <p>Gráfico lineal</p>
-              <h3>Grafico de Temperatura</h3>
-              <canvas id="tempGrafic"></canvas>
-            </figure>
-          </section>
 
-          <section class="cols-2">
-            <figure>
-              <p>Humedad de Ambiente</p>
-              <h3>Porcentaje de Humedad del Ambiente</h3>
-             <!--  <canvas id="humEnv"></canvas> -->
-            </figure>
-            <figure>
-              <p>Humedad de la Tierra</p>
-              <h3>Porcentaje de Humedad de Tierra</h3>
-              <div class="ajustt">
-                <canvas id="humSoil"></canvas>
-              </div>
-            </figure>
-          </section>
-          <section class="cols-1">
-            <figure>
-              <p>Panel de Control</p>
-              <h3>Control de Llenado</h3>
+        </div>
 
-              <div class="inputDiv">
-                <label for="customRange1" class="form-label">Slider de PWM</label>
-                <div class="etiqueta"></div>
-                <input type="range" class="form-range" id="input3" value="0" min="0" max="255" autocomplete="off">
-              </div>
-              <div class="inputDiv">
-                <label for="customRange1" class="form-label">LED</label>
-                <label class="switch2">
-                  <input type="checkbox" id="myCheck" onclick="myFunction()">
-                  <span class="slider round"></span>
-                </label>
-              </div>
+      </div>
+      <figure class="hero__img">
+        <img src="images/Graphic_Two Color.png" class="hero__img">
+      </figure>
+    </section>
+    <!-- <section class="hero__main container">
+      <img src="images/Graphic_Two Color.png" class="hero__img">
 
-            </figure>
-          </section>
+      <h1 class="hero__title">All your files in one secure location, accessible anywhere.</h1>
+      <p class="hero__paragraph">Fylo stores all your most important files in one secure location. Access them wherever
+        you need, share and collaborate with friends family, and co-workers.</p>
+      <a href="#" class="hero__cta">
+        Get Started
+      </a>
+    </section> -->
+  </header>
+
+  <main class="main">
+    <section class="about container">
+
+      <article class="about__item">
+        <figure class="about__picture">
+          <img src="images/icon-any-file.svg" class="about__img">
+        </figure>
+
+        <h3 class="about__title"> Access your files, anywhere</h3>
+
+        <p class="about__paragraph"> The ability to use a smartphone, tablet, or computer to access your account means
+          your
+          files follow you everywhere.</p>
+      </article>
+
+      <article class="about__item">
+        <figure class="about__picture">
+          <img src="images/icon-security.svg" class="about__img">
+        </figure>
+
+        <h3 class="about__title"> Security you can trust
+        </h3>
+
+        <p class="about__paragraph"> 2-factor authentication and user-controlled encryption are just a couple of the
+          security
+          features we allow to help secure your files.
+        </p>
+      </article>
+
+
+
+
+      <article class="about__item">
+        <figure class="about__picture">
+          <img src="images/icon-collaboration.svg" class="about__img">
+        </figure>
+
+        <h3 class="about__title">Real-time collaboration</h3>
+
+        <p class="about__paragraph">
+          Securely share files and folders with friends, family and colleagues for live collaboration.
+          No email attachments required.</p>
+      </article>
+
+      <article class="about__item">
+        <figure class="about__picture">
+          <img src="images/icon-any-file.svg" class="about__img">
+        </figure>
+
+        <h3 class="about__title"> Store any type of file</h3>
+
+        <p class="about__paragraph"> Whether you're sharing holidays photos or work documents, Fylo has you covered
+          allowing for all
+          file types to be securely stored and shared.</p>
+      </article>
+
+    </section>
+
+    <section class="productive container">
+
+      <figure class="productive__picture">
+        <img src="images/illustration-stay-productive.png" class="productive__img">
+      </figure>
+
+      <div class="productive__texts">
+
+        <h3 class="productive__title"> Stay productive, wherever you are</h3>
+
+        <p class="productive__paragraph"> Never let location be an issue when accessing your files. Fylo has you covered
+          for all of your file
+          storage needs.</p>
+
+        <p class="productive__paragraph">Securely share files and folders with friends, family and colleagues for live
+          collaboration. No email
+          attachments required.</p>
+
+        <a href="#" class="productive__cta">
+          See how Fylo works
+          <img src="images/icon-arrow.svg" class="productive__arrow">
+        </a>
+
+      </div>
+    </section>
+    <section class="card container">
+      <div class="cards ">
+        <div class="imgBx">
+          <img src="images/profile-1.jpg">
+        </div>
+        <div class="content">
+          <div class="details">
+            <h2>Alina Smith <br><span>Senior UX/UI Designerk</span></h2>
+            <ul class="socialmedia">
+              <li><a href="#"><i class="fa fa-github" aria-hidden="true"></i></a></li>
+              <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+              </li>
+              <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+              <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="cards ">
+        <div class="imgBx">
+          <img src="images/profile-1.jpg">
+        </div>
+        <div class="content">
+          <div class="details">
+            <h2>Alina Smith <br><span>Senior UX/UI Designerk</span></h2>
+            <ul class="socialmedia">
+              <li><a href="#"><i class="fa fa-github" aria-hidden="true"></i></a></li>
+              <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+              </li>
+              <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+              <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="cards ">
+        <div class="imgBx">
+          <img src="images/profile-1.jpg">
+        </div>
+        <div class="content">
+          <div class="details">
+            <h2>Alina Smith <br><span>Senior UX/UI Designerk</span></h2>
+            <ul class="socialmedia">
+              <li><a href="#"><i class="fa fa-github" aria-hidden="true"></i></a></li>
+              <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+              </li>
+              <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+              <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="cards ">
+        <div class="imgBx">
+          <img src="images/profile-1.jpg">
+        </div>
+        <div class="content">
+          <div class="details">
+            <h2>Alina Smith <br><span>Senior UX/UI Designerk</span></h2>
+            <ul class="socialmedia">
+              <li><a href="#"><i class="fa fa-github" aria-hidden="true"></i></a></li>
+              <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+              </li>
+              <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+              <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- <section class="card container">
+      <article class="card__item card__item--first">
+        <p class="card__paragraph"> Fylo has improved our team productivity by an order of magnitude. Since making the
+          switch our team has
+          become a well-oiled collaboration machine.</p>
+
+        <div class="card__profile">
+          <figure class="card__picture">
+            <img src="images/profile-1.jpg" class="card__img">
+          </figure>
+
+          <div class="card__info">
+            <h3 class="card__name">Satish Patel</h3>
+            <p class="card__job">Founder & CEO, Huddle</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card__item ">
+        <p class="card__paragraph"> Fylo has improved our team productivity by an order of magnitude. Since making the
+          switch our team has
+          become a well-oiled collaboration machine.</p>
+
+        <div class="card__profile">
+          <figure class="card__picture">
+            <img src="images/profile-2.jpg" class="card__img">
+          </figure>
+
+          <div class="card__info">
+            <h3 class="card__name">Bruce McKenzie</h3>
+            <p class="card__job">Founder & CEO, Huddle</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card__item ">
+        <p class="card__paragraph"> Fylo has improved our team productivity by an order of magnitude. Since making the
+          switch our team has
+          become a well-oiled collaboration machine.</p>
+
+        <div class="card__profile">
+          <figure class="card__picture">
+            <img src="images/profile-3.jpg" class="card__img">
+          </figure>
+
+          <div class="card__info">
+            <h3 class="card__name">Iva Boyd</h3>
+            <p class="card__job">Founder & CEO, Huddle</p>
+          </div>
+        </div>
+      </article> -->
+
+
+    </section>
+
+    <!-- <section class="join">
+      <div class="join__container container">
+        <h3 class="join__title"> Get early access today
+        </h3>
+        <p class="join__paragraph"> It only takes a minute to sign up and our free starter tier is extremely generous.
+          If you have any
+          questions, our support team would be happy to help you.</p>
+
+        <form class="join__form">
+          <input type="text" placeholder="email@example.com" class="join__input join__input--text">
+          <input type="submit" value="Get Started For Free" class="join__input join__input--submit">
+        </form>
+      </div>
+    </section> -->
+  </main>
+  <footer class="footer ">
+    <section class="footer__container container">
+      <img src="images/logo.svg" class="footer__logo">
+
+      <div class="footer__items">
+        <p class="footer__contact footer__contact--first">
+          <img src="images/icon-location.svg" class="footer__icon">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quidem aperiam quibusdam, veritatis
+          explicabo similique.
+        </p>
+
+
+        <div class="footer__content">
+
+          <p class="footer__contact footer__contact--second">
+            <img src="images/icon-phone.svg" class="footer__icon">
+            +1-543-123-4567
+          </p>
+
+          <div class="footer__location">
+            <p class="footer__contact">
+              <img src="images/icon-email.svg" class="footer__icon">
+              example@fylo.com
+            </p>
           </div>
 
-        </main>
-      </section>
-      <%- include ('partials/footer.html') %>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>
-          // Tópicos a los que se suscribe
-          const topic4 = "ceres/led";
-          const topic5 = "ceres/slider";
-          var socket = io();
-          function myFunction() {
-            // Get the checkbox
-            var checkBox = document.getElementById("myCheck");
-            // Get the output text
-            // If the checkbox is checked, display the output text
-            if (checkBox.checked == true) {
-              socket.emit(topic4, 'on')
-            } else {
-              socket.emit(topic4, 'off')
-            }
-          }
-          var elInput3 = document.querySelector('#input3');
-          if (elInput3) {
-            var etq = document.querySelector('.etiqueta');
-            if (etq) {
-              etq.innerHTML = elInput3.value;
-              elInput3.addEventListener('input', function () {
-                // cambia el valor de la etiqueta (el tooltip) 
-                etq.innerHTML = elInput3.value;
-                // cambia la posición de la etiqueta (el tooltip) 
-                socket.emit(topic5, elInput3.value)
-              }, false);
+        </div>
 
-            }
-          }
+        <!-- <nav class="footer__nav">
+          <a href="#" class="footer__link">About Us</a>
+          <a href="#" class="footer__link">Jobs</a>
+          <a href="#" class="footer__link">Press</a>
+          <a href="#" class="footer__link">Blog</a>
+        </nav>
 
-        </script>
-        <script>
-          // Tópicos que publica
-          const topic1 = "ceres/sensor/ambiente/temperatura";
-          const topic2 = "ceres/sensor/ambiente/humedad";
-          const topic3 = "ceres/sensor/distancia";
-          const topic6 = "ceres/sensor/planta/humedad-tierra";
-          const topic7 = "ceres/tanque/principal/estado";
-          const topic8 = "ceres/tanque/auxiliar/estado";
-          const topic9 = "ceres/tanque/principal/volumen-total";
-          const topic10 = "ceres/tanque/auxiliar/volumen-total";
-          const topic11 = "ceres/tanque/principal/volumen-liquido";
-          const topic12 = "ceres/tanque/auxiliar/volumen-liquido";
-          const topic13 = "ceres/tanque/principal/porcentaje-liquido";
-          const topic14 = "ceres/tanque/auxiliar/porcentaje-liquido";
-          
-          let counters = 0;
-          var socket = io();
-          socket.on(topic1, function (data) {
-            if(temperatureGrafic.data.labels.length>20){
-              temperatureGrafic.data.labels.length=0;
-              temperatureGrafic.data.datasets.forEach((dataset) => {
-              dataset.data.length=0;
-            }); 
-              counters = 0;
-            }else{
-              temperatureGrafic.data.labels.push(counters);
-            temperatureGrafic.data.datasets.forEach((dataset) => {
-              dataset.data.push(data.value);
-            });
-            counters++;
-            }
-            temperatureGrafic.update();
-          });
-          socket.on(topic6, function (data) {
-            
-            humiditySoil.data.datasets.forEach((dataset) => {
-              dataset.needleValue = data.value;
-            }); 
-             humiditySoil.update(); 
-          });
-          socket.on(topic2, function (data) {
-            environmentHumedity.data.datasets.forEach((dataset) => {
-              dataset.needleValue = data.value;
-            }); 
-            environmentHumedity.update();
-          });
-          socket.on(topic13, function (data) {
-            tankWater1.data.datasets.forEach((dataset) => {
-              dataset.data = [data.value];
-            });
-            tankWater1.update();
-          });
-          socket.on(topic14, function (data) {
-            tankWater2.data.datasets.forEach((dataset) => {
-              dataset.data = [data.value];
-            });
-            tankWater2.update();
-          });
+        <nav class="footer__nav">
+          <a href="#" class="footer__link">Contact Us</a>
+          <a href="#" class="footer__link">Terms</a>
+          <a href="#" class="footer__link">Privacy</a>
+        </nav> -->
 
-          socket.on(topic7, function (data) {
-            var dato = document.getElementById("estadoPricipal");
-            dato.innerHTML = data.value
-          });
-          socket.on(topic9, function (data) {
-            var dato = document.getElementById("totalPricipal");
-            dato.innerHTML = data.value
-          });
-          socket.on(topic11, function (data) {
-            var dato = document.getElementById("liquidoPricipal");
-            dato.innerHTML = data.value
-          });
-          socket.on(topic8, function (data) {
-            var dato = document.getElementById("estadoReserva");
-            dato.innerHTML = data.value
-          });
-          socket.on(topic10, function (data) {
-            var dato = document.getElementById("totalReserva");
-            dato.innerHTML = data.value
-          });
-          socket.on(topic12, function (data) {
-            var dato = document.getElementById("liquidoReserva");
-            dato.innerHTML = data.value
-          });
+        <div class="footer__social">
+          <a href="#" class="footer__media"><img src="images/fb.svg" class="footer__img"></a>
+          <a href="#" class="footer__media"><img src="images/twitter.svg" class="footer__img"></a>
+          <a href="#" class="footer__media footer__media--last"><img src="images/instagram.svg" class="footer__img"></a>
+        </div>
+      </div>
+
+    </section>
 
 
+  </footer>
 
-
-
-        </script>
-        <script src="js/paint.js"></script>
+  <!-- 
+  
+  
+  
+  
+  
+  
+  
+  <footer>
+    <p class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+      Coded by <a href="#">Your Name Here</a>.
+    </p>
+  </footer> -->
+  <script src="js/main.js"></script>
 </body>
 
 </html>

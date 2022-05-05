@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+  <link rel="stylesheet" href="css/stylesH.css" />
+</head>
+
+<body>
+  <%- include ("partials/svg.html") %>
+    <%- include ("partials/sidebar.html") %>
+      <section class="page-content">
+        <main>
+          <!-- <h1>Monitoreo Ceres_IoT</h1>
+          <p>Visualización de estadísticas</p>
+          <hr />
+          <h2 class="loading">Esperando respuesta de la API...</h2>  -->
+          <section class="cols-2">
+            <figure id="fotoRes">
+            </figure>
+            <figure>
+              <p>Nivel de Agua</p>
+              <h3>Tanque Reserva</h3>
+              <canvas id="chart2"></canvas>
+            </figure>
+          </section>
+          <section class="cols-1">
+            <figure id="humedadAmbiente">
+            </figure>
+          </section>
+          <section class="cols-3">
+            <figure>
+              <p>Humedad de Ambiente</p>
+              <h3>Porcentaje de Humedad del Ambiente</h3>
+              <canvas id="chart3"></canvas>
+            </figure>
+
+            <figure>
+              <p>Fotorresistencia</p>
+              <h3>Porcentaje de luz en la planta</h3>
+
+            </figure>
+
+            <figure>
+              <p>Humedad de la Tierra</p>
+              <h3>Porcentaje de Humedad de Tierra</h3>
+              <canvas id="chart5"></canvas>
+            </figure>
+          </section>
+
+        </main>
+      </section>
+      <%- include ('partials/footer.html') %>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/plotly.js"></script>
+
+</body>
+
+</html>

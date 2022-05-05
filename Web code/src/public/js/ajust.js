@@ -1,3 +1,4 @@
+
 /* var elInput3 = document.querySelector('#input3');
 
 if (elInput3) {
@@ -24,18 +25,19 @@ if (elInput3) {
   }
 } */
 
-
-
-
-var elInput = document.querySelector('#input');
+var elInput = document.querySelector("#input");
 if (elInput) {
-  var etiqueta = document.querySelector('#etiqueta');
+  var etiqueta = document.querySelector("#etiqueta");
   if (etiqueta) {
     etiqueta.innerHTML = elInput.value;
 
-    elInput.addEventListener('input', function() {
-      etiqueta.innerHTML = elInput.value;
-    }, false);
+    elInput.addEventListener(
+      "input",
+      function () {
+        etiqueta.innerHTML = elInput.value;
+      },
+      false
+    );
   }
 }
 const html = document.documentElement;
@@ -48,6 +50,7 @@ const switchLabel = document.querySelector(".switch label");
 const switchLabelText = switchLabel.querySelector("span:last-child");
 const collapsedClass = "collapsed";
 const lightModeClass = "light-mode";
+
 
 /*TOGGLE HEADER STATE*/
 collapseBtn.addEventListener("click", function () {
@@ -103,3 +106,5 @@ switchInput.addEventListener("input", function () {
     localStorage.setItem("dark-mode", "true");
   }
 });
+
+

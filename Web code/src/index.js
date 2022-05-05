@@ -1,23 +1,33 @@
 const app = require("./app");
 require("./database");
 const Task = require("./models/Task");
+
 const http = require("http");
-const { Server } = require("socket.io");
 const server = http.createServer(app);
+const { Server } = require("socket.io");
 const io = new Server(server);
 
 /// sockets
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   console.log("a user connected");
+  let tasks = await Task.find(/* {
+    topic: "ceres/sensor/ambiente/humedad",
+  } */).lean();
+  console.log(tasks.length);
+  io.emit("temp", tasks);
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
 });
+
+/// fumada
+
 // Tópicos que publica
 const topic0 = "ceres/#";
 const topic1 = "ceres/sensor/ambiente/temperatura";
 const topic2 = "ceres/sensor/ambiente/humedad";
-const topic3 = "ceres/sensor/distancia";
+const topic3 = "ceres/sensor/fotoresistencia/estado";
+const topic4 = "ceres/sensor/fotoresistencia";
 const topic6 = "ceres/sensor/planta/humedad-tierra";
 const topic7 = "ceres/tanque/principal/estado";
 const topic8 = "ceres/tanque/auxiliar/estado";
@@ -28,8 +38,8 @@ const topic12 = "ceres/tanque/auxiliar/volumen-liquido";
 const topic13 = "ceres/tanque/principal/porcentaje-liquido";
 const topic14 = "ceres/tanque/auxiliar/porcentaje-liquido";
 // Tópicos a los que se suscribe
-const topic4 = "ceres/led";
-const topic5 = "ceres/slider";
+const topicPub1 = "ceres/led";
+const topicPub2 = "ceres/slider";
 // MQTT varibles
 const mqtt = require("mqtt");
 const host = "test.mosquitto.org";
@@ -52,12 +62,38 @@ client.on("connect", function () {
   client.subscribe(topic0);
   console.log("Client subscribed");
 });
+/* function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}  */
+ /* var step = 1;
+ client.on("message", (topic, message) => {
+  
+  if (
+    topic == topic1 ||
+    topic == topic2 ||
+    topic == topic4 ||
+    topic == topic6
+  ) {
+    if (step > 36 && step < 41) {
+      //almacenado en database
+       (async () => {
+        const task = Task({ topic: topic, value: message });
+        const saveTask = await task.save();
+        console.log(saveTask);
+      })();
+      console.log(step);
+      step++;
+    } else {
+      step++;
+    }
+    if(step > 40) {
+      step = 1;
+      
+    }
+  }
+}); */
 //mensaje que se recibe
-client.on("message", async (topic, message) => {
-  //almacenado en database
-  /* const task = Task({ topic: topic, value: message });
-  const saveTask = await task.save();
-  console.log(saveTask); */
+client.on("message", (topic, message) => {
   //enviar el topico de temperatura al HTfML
   if (topic == topic1) {
     io.emit(topic1, {
@@ -67,6 +103,18 @@ client.on("message", async (topic, message) => {
   //enviar el topico de humedadAmbiente al HTML
   if (topic == topic2) {
     io.emit(topic2, {
+      value: message.toString(),
+    });
+  }
+  //enviar el topico de el estado de la fotoresistencia al HTML
+  if (topic == topic3) {
+    io.emit(topic3, {
+      value: message.toString(),
+    });
+  }
+  //enviar el topico de la fotoresistencia al HTML
+  if (topic == topic4) {
+    io.emit(topic4, {
       value: message.toString(),
     });
   }
@@ -130,16 +178,28 @@ client.on("message", async (topic, message) => {
 });
 //publicacion del switch que viene del HTML
 io.on("connection", (socket) => {
-  socket.on(topic4, (msg) => {
-    client.publish(topic4, msg.toString());
+  socket.on(topicPub1, (msg) => {
+    client.publish(topicPub1, msg.toString());
     console.log(msg.toString());
   });
 });
 io.on("connection", (socket) => {
-  socket.on(topic5, (msg) => {
-    client.publish(topic5, msg.toString());
+  socket.on(topicPub2, (msg) => {
+    client.publish(topicPub2, msg.toString());
     console.log(msg.toString());
   });
 });
 
-server.listen(process.env.PORT || 4000);
+/* app.get("/contact", async (req, res) => {
+   try {
+    let tasks = await Task.find({topic:"ceres/sensor/ambiente/humedad"}).limit(250).lean(); 
+   console.log(tasks.length);
+     res.json(tasks) 
+   io.emit("temp", tasks);
+  } catch (error) {
+    console.log(error);
+  }
+   res.render("contact.html", {title: "Contact"});
+ }); */
+
+server.listen(process.env.PORT || 4000, () => console.log(`Server started!`));
