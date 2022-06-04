@@ -16,6 +16,7 @@ const topic14 = "ceres/tanque/auxiliar/porcentaje-liquido";
 // Tópicos a los que se suscribe
 const topicPub1 = "ceres/led";
 const topicPub2 = "ceres/slider";
+const topicPub3 = "ceres/slider2";
 
 let counters = 0;
 
@@ -45,7 +46,6 @@ if (elInput3) {
 
   }
 }
-
 socket.on(topic1, function (data) {
   if (temperatureGrafic.data.labels.length > 20) {
     temperatureGrafic.data.labels.length = 0;
@@ -73,6 +73,12 @@ socket.on(topic4, function (data) {
   luzFoto.data.datasets.forEach((dataset) => {
     dataset.needleValue = data.value;
   });
+  luzFoto.data.datasets.forEach((dataset) => {
+    dataset.data[0]=data.value;
+  });
+  luzFoto.data.datasets.forEach((dataset) => {
+    dataset.data[1]=100-data.value;
+  });
   luzFoto.update();
 })
 
@@ -81,6 +87,7 @@ socket.on(topic6, function (data) {
   humiditySoil.data.datasets.forEach((dataset) => {
     dataset.needleValue = data.value;
   });
+  
   humiditySoil.update();
 });
 
@@ -96,7 +103,10 @@ socket.on(topic14, function (data) {
   });
   tankWater2.update();
 });
-
+socket.on(topic3, function (data) {
+  var dato = document.getElementById("estadoLuz");
+  dato.innerHTML = data.value
+});
 socket.on(topic7, function (data) {
   var dato = document.getElementById("estadoPricipal");
   dato.innerHTML = data.value

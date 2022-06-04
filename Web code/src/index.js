@@ -10,17 +10,13 @@ const io = new Server(server);
 /// sockets
 io.on("connection", async (socket) => {
   console.log("a user connected");
-  let tasks = await Task.find(/* {
-    topic: "ceres/sensor/ambiente/humedad",
-  } */).lean();
+  let tasks = await Task.find().lean();
   console.log(tasks.length);
   io.emit("temp", tasks);
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
 });
-
-/// fumada
 
 // Tópicos que publica
 const topic0 = "ceres/#";
@@ -40,6 +36,7 @@ const topic14 = "ceres/tanque/auxiliar/porcentaje-liquido";
 // Tópicos a los que se suscribe
 const topicPub1 = "ceres/led";
 const topicPub2 = "ceres/slider";
+const topicPub3 = "ceres/slider2";
 // MQTT varibles
 const mqtt = require("mqtt");
 const host = "test.mosquitto.org";
@@ -65,7 +62,7 @@ client.on("connect", function () {
 /* function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
 }  */
- /* var step = 1;
+ var step = 1;
  client.on("message", (topic, message) => {
   
   if (
@@ -91,7 +88,7 @@ client.on("connect", function () {
       
     }
   }
-}); */
+}); 
 //mensaje que se recibe
 client.on("message", (topic, message) => {
   //enviar el topico de temperatura al HTfML
@@ -176,7 +173,7 @@ client.on("message", (topic, message) => {
   }
   // console.log(topic + " - " + message.toString());
 });
-//publicacion del switch que viene del HTML
+//publicacion de topicos que vienen del HTML
 io.on("connection", (socket) => {
   socket.on(topicPub1, (msg) => {
     client.publish(topicPub1, msg.toString());
@@ -189,17 +186,13 @@ io.on("connection", (socket) => {
     console.log(msg.toString());
   });
 });
+io.on("connection", (socket) => {
+  socket.on(topicPub3, (msg) => {
+    client.publish(topicPub3, msg.toString());
+    console.log(msg.toString());
+  });
+});
 
-/* app.get("/contact", async (req, res) => {
-   try {
-    let tasks = await Task.find({topic:"ceres/sensor/ambiente/humedad"}).limit(250).lean(); 
-   console.log(tasks.length);
-     res.json(tasks) 
-   io.emit("temp", tasks);
-  } catch (error) {
-    console.log(error);
-  }
-   res.render("contact.html", {title: "Contact"});
- }); */
+
 
 server.listen(process.env.PORT || 4000, () => console.log(`Server started!`));

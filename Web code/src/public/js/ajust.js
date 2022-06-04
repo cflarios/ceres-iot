@@ -1,5 +1,5 @@
 
-/* var elInput3 = document.querySelector('#input3');
+var elInput3 = document.querySelector('#input3');
 
 if (elInput3) {
   var w = parseInt(window.getComputedStyle(elInput3, null).getPropertyValue('width'));
@@ -23,8 +23,8 @@ if (elInput3) {
 
     }, false);
   }
-} */
-
+} 
+/* 
 var elInput = document.querySelector("#input");
 if (elInput) {
   var etiqueta = document.querySelector("#etiqueta");
@@ -39,7 +39,7 @@ if (elInput) {
       false
     );
   }
-}
+} */
 const html = document.documentElement;
 const body = document.body;
 const menuLinks = document.querySelectorAll(".admin-menu a");

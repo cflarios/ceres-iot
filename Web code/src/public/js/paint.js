@@ -1,3 +1,4 @@
+
 const temp = document.getElementById("tempGrafic").getContext("2d");
 const soil = document.getElementById("humSoil").getContext("2d");
 const environment = document.getElementById("humEnv").getContext("2d");
@@ -12,13 +13,13 @@ gradientStroke.addColorStop(0, "rgba(66,134,121,0)"); //green colors */
 var chartColor = "#FFFFFF";
 var gradientStroke = temp.createLinearGradient(0, 230, 0, 50);
 
-    gradientStroke.addColorStop(1, 'rgba(72,72,176,0.2)');
-    gradientStroke.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke.addColorStop(0, 'rgba(119,52,169,0)'); //purple colors
+gradientStroke.addColorStop(1, 'rgba(72,72,176,0.2)');
+gradientStroke.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+gradientStroke.addColorStop(0, 'rgba(119,52,169,0)'); //purple colors
 
-   var gradientFill = temp.createLinearGradient(0, 170, 0, 50);
-    gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
-    gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
+var gradientFill = temp.createLinearGradient(0, 170, 0, 50);
+gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
+gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
 
 var gradientStroke2 = luzPlant.createLinearGradient(500, 0, 100, 0);
 gradientStroke2.addColorStop(0, "#80b6f4");
@@ -105,14 +106,20 @@ const humiditySoil = new Chart(soil, {
       {
         data: [20, 30, 50],
         label: "humedad %",
-        backgroundColor: ["red", "yellow", "green"],
-        borderColor: "#1d2636",
+        backgroundColor: [
+          'rgba(255, 26, 0, 0.7)',
+          'rgba(255, 255, 0, 0.7)',
+          'rgba(102, 255, 0, 0.7)'
+        ],
+        borderColor: ['rgba(255, 26, 0, 1)',
+        'rgba(255, 255, 0, 1)',
+        'rgba(102, 255, 0, 1)'],
         borderWidth: 2,
         needleValue: 0,
         circumference: 200,
         rotation: 260,
-        cutout: "85%",
-        borderRadius: 2,
+        cutout: "87%",
+        borderRadius: 4,
       },
     ],
   },
@@ -189,14 +196,20 @@ const environmentHumedity = new Chart(environment, {
       {
         data: [20, 30, 50],
         label: "humedad %",
-        backgroundColor: ["red", "yellow", "green"],
-        borderColor: "#1d2636",
+        backgroundColor: [
+          'rgba(255, 26, 0, 0.7)',
+          'rgba(255, 255, 0, 0.7)',
+          'rgba(102, 255, 0, 0.7)'
+        ],
+        borderColor: ['rgba(255, 26, 0, 1)',
+        'rgba(255, 255, 0, 1)',
+        'rgba(102, 255, 0, 1)'],
         borderWidth: 2,
         needleValue: 0,
         circumference: 200,
         rotation: 260,
-        cutout: "85%",
-        borderRadius: 2,
+        cutout: "87%",
+        borderRadius: 4,
       },
     ],
   },
@@ -268,19 +281,26 @@ const environmentHumedity = new Chart(environment, {
 const luzFoto = new Chart(luzPlant, {
   type: "doughnut",
   data: {
-    labels: ["x", "y", "z"],
+    labels: ["x", "y"],
     datasets: [
       {
-        data: [20, 30, 50],
         label: "humedad %",
-        backgroundColor: ["red", "yellow", "green"],
-        borderColor: "#1d2636",
+        data: [0,0 ],
+        backgroundColor: [
+          'rgba(255, 26, 104, 0.2)',
+          'transparent'
+        ],
+        borderColor: [
+          'rgba(255, 26, 104, 1)',
+          'transparent'
+        ],
         borderWidth: 2,
         needleValue: 0,
+        borderRadius: 10,
         /* circumference: 180,
         rotation: 270, */
         cutout: "75%",
-        borderRadius: 2,
+
       },
     ],
   },
@@ -319,7 +339,7 @@ const luzFoto = new Chart(luzPlant, {
         );
         const angle = Math.PI + (1 / dataTotal) * needleValue * Math.PI;
 
-        const cx = width/2;
+        const cx = width / 2;
         const cy = chart._metasets[0].data[0].y;
 
         // needle
@@ -339,11 +359,11 @@ const luzFoto = new Chart(luzPlant, {
          */
         /* ctx.fill();
         ctx.restore();   */
-       // ctx.arc(cx, cy, 5, 0, 10);
+        // ctx.arc(cx, cy, 5, 0, 10);
         //needle number
         ctx.font = "55px Helvetica";
         ctx.fillStyle = "#00d6b4";
-        ctx.fillText(needleValue + "%", cx-30, cy+20 );
+        ctx.fillText(parseFloat(needleValue).toFixed() + "%", cx - 30, cy + 20);
         ctx.textAlign = "center";
         ctx.restore();
       },
@@ -404,29 +424,111 @@ gradientChartOptionsConfigurationWithTooltipPurple = {
 
 const temperatureGrafic = new Chart(temp, {
   type: 'line',
-      responsive: true,
-      data: {
-        labels: [],
-      datasets: [{
-        label: "Temperatura",
-        fill: true,
-        backgroundColor: gradientStroke,
-        borderColor: '#d048b6',
-        borderWidth: 2,
-        borderDash: [],
-        borderDashOffset: 0.0,
-        pointBackgroundColor: '#d048b6',
-        pointBorderColor: 'rgba(255,255,255,0)',
-        pointHoverBackgroundColor: '#d048b6',
-        pointBorderWidth: 20,
-        pointHoverRadius: 4,
-        pointHoverBorderWidth: 15,
-        pointRadius: 4,
-        data: [],
-      }]
-      },
-  options:{plugins: {
-    legend: {
-      display: false,
-    }}, gradientChartOptionsConfigurationWithTooltipPurple,} 
+  responsive: true,
+  data: {
+    labels: [],
+    datasets: [{
+      label: "Temperatura",
+      fill: true,
+      backgroundColor: gradientStroke,
+      borderColor: '#d048b6',
+      borderWidth: 2,
+      borderDash: [],
+      borderDashOffset: 0.0,
+      pointBackgroundColor: '#d048b6',
+      pointBorderColor: 'rgba(255,255,255,0)',
+      pointHoverBackgroundColor: '#d048b6',
+      pointBorderWidth: 20,
+      pointHoverRadius: 4,
+      pointHoverBorderWidth: 15,
+      pointRadius: 4,
+      data: [],
+    }]
+  },
+  options: {
+    plugins: {
+      legend: {
+        display: false,
+      }
+    }, gradientChartOptionsConfigurationWithTooltipPurple,
+  }
 });
+
+const doughnutGauge = new Chart("gauge", {
+  type: 'doughnut',
+  responsive: true,
+  data: {
+    labels: ['Mon', ''],
+    datasets: [{
+      label: 'Weekly Sales',
+      data: [90, 10],
+      backgroundColor: [
+        'rgba(255, 26, 104, 0.2)',
+        'transparent'
+      ],
+      borderColor: [
+        'rgba(255, 26, 104, 1)',
+        'transparent'
+      ],
+      borderwidth: 1,
+      cutout: '95%',
+      borderRadius: 10
+    }]
+  },
+  options: {
+    onResize: (context) => {
+      let scoreInput = document.getElementById('scoreInput');
+      const width = 75;
+      const height = 50;
+
+      if (!scoreInput) {
+        scoreInput = document.createElement('input');
+        scoreInput.id = 'scoreInput';
+        scoreInput.value = context.data.datasets[0].data[0];
+        scoreInput.type = 'number';
+        scoreInput.min = 0;
+        scoreInput.max = 100;
+        scoreInput.style.width = `${width}px`;
+        scoreInput.style.height = `${height}px`;
+        scoreInput.style.position = 'relative';
+        scoreInput.classList.add('score');
+        context.canvas.parentNode.appendChild(scoreInput);
+      }
+      console.log(context)
+      const xPos = context.width / 2 - (width / 2);
+      const yPos = context.height / 2 * -1 - (height / 2);
+      scoreInput.style.left = xPos + 'px';
+      scoreInput.style.top = yPos + 'px';
+    },
+    plugins: {
+      tooltip: {
+        enabled: false
+      },
+      legend: {
+        display: false
+
+      }
+    }
+  }
+  });
+
+  document.getElementById ('scoreInput').addEventListener('input', (e) =>{
+    percentage(document.getElementById('scoreInput'), doughnutGauge)
+   });
+   function percentage(score, chart){
+    socket.emit(topicPub3, score.value);
+     const{data}=chart;
+     if(score.value >=0 && score.value<100){
+      data.datasets [0].data[0]=score.value;
+      data.datasets[0].data[1]=100-score.value;
+      }else if(score.value >= 100){
+      data.datasets[0].data[0]=100;
+      data.datasets [0].data[1]=0;
+      document.getElementById ('scoreInput').value=100;
+      }else{
+      data.datasets [0].data[0]=0;
+      data.datasets [0].data[1]=100;
+      document.getElementById ('scoreInput').value=0;
+    }
+     chart.update();
+   }

@@ -98,17 +98,19 @@
                <p>Fotorresistencia</p>
               <h3>Porcentaje de luz en la planta</h3>
               <div class="ajustt">
-                <canvas id="luzFot"></canvas>
-              </div>
-             <!-- <div style="flex-direction: row;">
-                <div class="ajustt">
+                <div style ="padding-left: 60px;
+                padding-right: 60px;">
                   <canvas id="luzFot"></canvas>
                 </div>
-                <div class="row">
-                    <p>Volumen Total:&ensp;</p>
-                    <p id="totalPricipal"></p>
+                
+                
+                  <div class="row">
+                    <h1>Nivel de Luz:&ensp;</h1>
+                    <h1 id="estadoLuz"></h1>
                   </div>
-              </div> -->
+              
+              
+              </div>
             </figure>
             <figure class="right">
               <p>Humedad de la Tierra</p>
@@ -135,20 +137,25 @@
             <figure>
               <p>Panel de Control</p>
               <h3>Control de Llenado</h3>
-
-              <div class="inputDiv">
-                <label for="customRange1" class="form-label">Slider de PWM</label>
-                <div class="etiqueta"></div>
-                <input type="range" class="form-range" id="input3" value="0" min="0" max="255" autocomplete="off">
+              <div class="ajustt">
+                <div class="inputDiv">
+                  <label for="customRange1" class="form-label">Slider de PWM</label>
+                  <div class="etiqueta"></div>
+                  <input type="range" class="form-range" id="input3" value="0" min="0" max="255" autocomplete="off">
+                </div>
+                <div class="inputDiv">
+                  <label for="customRange1" class="form-label">LED</label>
+                  <label class="switch2">
+                    <input type="checkbox" id="myCheck" onclick="myFunction()">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+                <div >
+                  <canvas id="gauge"></canvas>
+                </div>
+                
               </div>
-              <div class="inputDiv">
-                <label for="customRange1" class="form-label">LED</label>
-                <label class="switch2">
-                  <input type="checkbox" id="myCheck" onclick="myFunction()">
-                  <span class="slider round"></span>
-                </label>
-              </div>
-
+              
             </figure>
           </section>
           </div>

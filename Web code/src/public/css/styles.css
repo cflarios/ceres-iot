@@ -29,7 +29,14 @@
   margin: 0;
   box-sizing: border-box;
 }
-
+#scoreInput{
+  font-size: 35px;
+  font-weight: bolder;
+  text-align: center;
+  border: 0;
+  outline: 0;
+  background-color: var(--page-header-bgColor);
+}
 ul {
   list-style: none;
 }
@@ -269,6 +276,13 @@ nav button {
 .row{
   margin-left: 10px;
 }
+.row h1 {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 12px;
+  margin-top: 12px;
+  text-decoration: none;
+}
 .page-header .admin-menu {
   display: flex;
   flex-direction: column;
@@ -389,11 +403,15 @@ nav button {
 } 
 
 .ajustt{
-  max-width: 90%;
-  margin-left: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+    max-width: 90%;
+ /* margin-left: 10%;
   margin-right: 10%;
-  padding-left: 60px;
-  padding-right: 60px;
+    */
   
 }
 .ajustt2{
@@ -783,6 +801,10 @@ figure p {
   .page-content main > figure{
     grid-column: 1 / -1;
   }
+  .ajustt{
+    display: flex;
+    flex-direction: column;
+  }
 
   section {
     margin-bottom: 0px;
@@ -813,6 +835,7 @@ figure p {
 }
 
 @media screen and (min-width: 768px) {
+  
   .collapsed .page-header {
     width: 40px;
   }
